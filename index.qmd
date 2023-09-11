@@ -18,7 +18,7 @@ editor:
 ---
 
 ## Introduction
-My name is William, and I am a data analyst.
+
 This is an introduction to Kernel regression, which is a non-parametric
 estimator that estimates the conditional expectation of two variables
 which is random. The goal of a kernel regression is to discover the
@@ -27,6 +27,68 @@ non-linear relationship, kernel estimator or kernel smoothing is the
 main method to estimate the curve for non-parametric statistics. In
 kernel estimator, weight function is known as kernel function
 [@efr2008]. Cite this paper [@bro2014principal]. The GEE [@wang2014].
+
+## Article Summary
+
+Article 1: On beta regression residuals
+
+Patrícia L. Espinheira, Silvia L.P. Ferrari & Francisco
+Cribari-Neto (2008) On beta regression residuals, Journal of Applied
+Statistics, 35:4, 407-419, DOI: 10.1080/0266476070183493
+
+Summary
+
+The article discusses the application of beta regression models in
+statistical analysis, specifically focusing on scenarios where
+continuous variables are bounded within the open interval (0, 1). The
+primary goal of the paper is to address the challenge of analyzing data
+involving continuous variables that are confined to the open interval
+(0, 1), such as proportions and percentages. Traditional linear
+regression models are not suited for such data due to their inability to
+account for the specific characteristics of this type of information,
+including limited range and varying variances. The paper introduces beta
+regression models as an alternative and proposes innovative residuals
+for assessing model performance and identifying influential data points.
+
+This research is significant because it offers a practical solution to a
+common statistical problem encountered in diverse fields. By introducing
+these new residuals based on Fisher's scoring iterative algorithm, the
+paper presents a methodological advancement that enhances the accuracy
+of model assessments and identification of influential observations. The
+results of Monte Carlo simulations and real data applications
+demonstrate the superiority of these new residuals, especially in
+scenarios where traditional residuals may fall short in assessing model
+fit and identifying influential data points.
+
+Article 2: Improved estimators for a general class of beta regression
+models
+
+Simas, Alexandre B. & Barreto-Souza, Wagner & Rocha, Andréa V., 2010.
+"Improved estimators for a general class of beta regression
+models," Computational Statistics & Data Analysis, Elsevier, vol. 54(2),
+pages 348-366, February.
+
+Summary
+
+The goal of this paper is to enhance the beta regression model by
+allowing for nonlinear regression structures and precision parameter
+regression. The importance of this work lies in addressing biases in
+parameter estimation that can arise, particularly in small sample sizes,
+and in providing practical solutions for bias correction. This is
+crucial because biased estimates can lead to erroneous conclusions in
+statistical analyses.
+
+To achieve this goal, the paper derives closed-form expressions for
+second-order biases in maximum likelihood estimators (MLEs) of various
+model parameters, including means of responses and precision parameters.
+The methods for bias correction explored in the paper include analytical
+approaches, preventive bias reduction, bootstrap bias adjustment, and
+auxiliary weighted linear regressions. The paper presents simulation
+results showing that the proposed bias-corrected estimators outperform
+the MLEs, particularly in small sample sizes. However, this approach
+might have limitations or assumptions that should be considered when
+applying it to specific datasets or scenarios, and further research may
+be needed to explore its applicability in different contexts.
 
 ## Methods
 
