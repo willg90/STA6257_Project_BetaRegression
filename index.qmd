@@ -1,6 +1,6 @@
 ---
-title: "Report Sample"
-author: "Student name"
+title: "Beta Regression"
+author: "Marcus Chery and Keiron Green"
 date: '`r Sys.Date()`'
 format:
   html:
@@ -19,131 +19,159 @@ editor:
 
 ## Introduction
 
-This is an introduction to Kernel regression, which is a non-parametric
-estimator that estimates the conditional expectation of two variables
-which is random. The goal of a kernel regression is to discover the
-non-linear relationship between two random variables. To discover the
-non-linear relationship, kernel estimator or kernel smoothing is the
-main method to estimate the curve for non-parametric statistics. In
-kernel estimator, weight function is known as kernel function
-[@efr2008]. Cite this paper [@bro2014principal]. The GEE [@wang2014].
+Beta regression is a statistical methodology tailored to address the
+challenges associated with modeling continuous bounded response
+variables, often constrained within the open interval (0, 1).  Beta
+regression, as introduced by Ferrari & Cribari-Neto (2004) in their
+seminal paper, offers an elegant framework for modeling proportions and
+percentages with an emphasis on interpretability of model parameters.
+This foundational work serves as a cornerstone for subsequent research
+and applications.
 
-## Article Summary
+In beta regression, the dependent variable is assumed to follow a beta
+distribution, and the goal is to model its relationship with one or more
+independent variables.
 
-Article 1: On beta regression residuals
+The beta regression model can be expressed as the following algorithm
 
-Patrícia L. Espinheira, Silvia L.P. Ferrari & Francisco
-Cribari-Neto (2008) On beta regression residuals, Journal of Applied
-Statistics, 35:4, 407-419, DOI: 10.1080/0266476070183493
+![](images/Picture1.jpg)
 
-Summary
+where p, q \> 0 and Γ(·) is the gamma function.
 
-The article discusses the application of beta regression models in
-statistical analysis, specifically focusing on scenarios where
-continuous variables are bounded within the open interval (0, 1). The
-primary goal of the paper is to address the challenge of analyzing data
-involving continuous variables that are confined to the open interval
-(0, 1), such as proportions and percentages. Traditional linear
-regression models are not suited for such data due to their inability to
-account for the specific characteristics of this type of information,
-including limited range and varying variances. The paper introduces beta
-regression models as an alternative and proposes innovative residuals
-for assessing model performance and identifying influential data points.
+ Beta regression is suitable for data where the response variable lies
+within a closed interval, such as proportions, percentages, or rates. It
+considers both the mean and the dispersion of the data.
 
-This research is significant because it offers a practical solution to a
-common statistical problem encountered in diverse fields. By introducing
-these new residuals based on Fisher's scoring iterative algorithm, the
-paper presents a methodological advancement that enhances the accuracy
-of model assessments and identification of influential observations. The
-results of Monte Carlo simulations and real data applications
-demonstrate the superiority of these new residuals, especially in
-scenarios where traditional residuals may fall short in assessing model
-fit and identifying influential data points.
+The beta distribution is characterized by two parameters: alpha (α) and
+beta (β). These parameters can be modeled as a function of predictor
+variables, allowing for the analysis of how independent variables
+influence the shape of the distribution.
 
-Article 2: Improved estimators for a general class of beta regression
-models
+Like logistic regression, beta regression often uses a link function to
+relate the mean of the beta distribution to the linear combination of
+predictor variables. Common link functions include logit, probit, and
+log-log.
 
-Simas, Alexandre B. & Barreto-Souza, Wagner & Rocha, Andréa V., 2010.
-"Improved estimators for a general class of beta regression
-models," Computational Statistics & Data Analysis, Elsevier, vol. 54(2),
-pages 348-366, February.
+The coefficients obtained from beta regression provide insights into how
+changes in the predictor variables affect the distribution of the
+response variable, including its mean and variability.
 
-Summary
+Complementing this, the "betareg" package for R, as presented by
+Cribari-Neto & Zeileis (2010), provides various methods and procedures
+for implementing beta regression models in R. Building on the foundation
+laid by Ferrari and Cribari-Neto (2004), Cribari-Neto & Zeileis (2010)
+introduce the "betareg" package for R, offering a practical
+implementation of beta regression models. This paper is instrumental in
+bringing beta regression into the realm of data analysis and showcases
+the package's utility in addressing challenges related to continuous
+bounded response variables.
 
-The goal of this paper is to enhance the beta regression model by
-allowing for nonlinear regression structures and precision parameter
-regression. The importance of this work lies in addressing biases in
-parameter estimation that can arise, particularly in small sample sizes,
-and in providing practical solutions for bias correction. This is
-crucial because biased estimates can lead to erroneous conclusions in
-statistical analyses.
+Moreover, the paper authored by Patrícia L. Espinheira, Silvia L.P.
+Ferrari, and Francisco Cribari-Neto unveils innovative residuals, based
+on Fisher's scoring iterative algorithm, enhancing model assessments and
+bias correction---a pivotal contribution to the methodology's practical
+applicability. They address a common challenge in statistical analysis
+by offering a practical solution for improved model assessments and bias
+correction. The study presents new residuals based on Fisher's scoring
+iterative algorithm, demonstrating their superiority in various
+scenarios, particularly in small sample sizes.
 
-To achieve this goal, the paper derives closed-form expressions for
-second-order biases in maximum likelihood estimators (MLEs) of various
-model parameters, including means of responses and precision parameters.
-The methods for bias correction explored in the paper include analytical
-approaches, preventive bias reduction, bootstrap bias adjustment, and
-auxiliary weighted linear regressions. The paper presents simulation
-results showing that the proposed bias-corrected estimators outperform
-the MLEs, particularly in small sample sizes. However, this approach
-might have limitations or assumptions that should be considered when
-applying it to specific datasets or scenarios, and further research may
-be needed to explore its applicability in different contexts.
+Whereas, Simas, Barreto-Souza, & Rocha (2010) delve into bias correction
+methods for beta regression models in the quest for improved estimators
+in beta regression. They address biases in parameter estimation, a
+critical concern. Recognizing the potential for bias in parameter
+estimation, especially in small sample sizes, the paper provides
+closed-form expressions for second-order biases in maximum likelihood
+estimators. The authors present various methods for bias correction,
+including analytical approaches and bootstrap bias adjustment, enhancing
+the accuracy of model assessments and mitigating erroneous conclusions.
+
+Various techniques building upon the foundations of (Ferrari &
+Cribari-Neto, 2004) have been introduced throughout the years. One such
+enhancement is the "boosted beta regression" as a novel extension of
+classical beta regression. Schmid et al. (2013) address complex modeling
+scenarios with many predictor variables, multicollinearity, nonlinear
+relationships, and overdispersion dependencies. They utilize the
+gamboostLSS algorithm to efficiently estimate beta regression models,
+making it possible to fit models while preserving the structure of beta
+regression. The method's effectiveness is demonstrated through
+ecological data applications, highlighting its advantages in terms of
+model fit and prediction accuracy.
+
+Furthermore, one such limitation of classical beta regression is its
+handling of zero or one inflated data. Ospina & Ferrari (2012) introduce
+a versatile class of regression models, zero-or-one inflated beta
+regression, specifically tailored to address datasets containing
+continuous proportions with zeros or ones. The paper offers a flexible
+solution for modeling mixed continuous-discrete distributions, essential
+in real-world scenarios such as income contributions or work-related
+activities. By combining the beta distribution with a degenerate
+distribution at zero or one, the authors provide a robust framework for
+effective modeling, parameter estimation, diagnostics, and model
+selection.
 
 ## Methods
-
-The common non-parametric regression model is
-$Y_i = m(X_i) + \varepsilon_i$, where $Y_i$ can be defined as the sum of
-the regression function value $m(x)$ for $X_i$. Here $m(x)$ is unknown
-and $\varepsilon_i$ some errors. With the help of this definition, we
-can create the estimation for local averaging i.e. $m(x)$ can be
-estimated with the product of $Y_i$ average and $X_i$ is near to $x$. In
-other words, this means that we are discovering the line through the
-data points with the help of surrounding data points. The estimation
-formula is printed below [@R-base]:
-
-$$
-M_n(x) = \sum_{i=1}^{n} W_n (X_i) Y_i  \tag{1}
-$$ $W_n(x)$ is the sum of weights that belongs to all real numbers.
-Weights are positive numbers and small if $X_i$ is far from $x$.
 
 ## Analysis and Results
 
 ### Data and Vizualisation
-
-A study was conducted to determine how...
-
-```{r, warning=FALSE, echo=T, message=FALSE}
-# loading packages 
-library(tidyverse)
-library(knitr)
-library(ggthemes)
-library(ggrepel)
-library(dslabs)
-```
-
-```{r, warning=FALSE, echo=TRUE}
-# Load Data
-kable(head(murders))
-
-ggplot1 = murders %>% ggplot(mapping = aes(x=population/10^6, y=total)) 
-
-  ggplot1 + geom_point(aes(col=region), size = 4) +
-  geom_text_repel(aes(label=abb)) +
-  scale_x_log10() +
-  scale_y_log10() +
-  geom_smooth(formula = "y~x", method=lm,se = F)+
-  xlab("Populations in millions (log10 scale)") + 
-  ylab("Total number of murders (log10 scale)") +
-  ggtitle("US Gun Murders in 2010") +
-  scale_color_discrete(name = "Region")+
-      theme_bw()
-  
-
-```
 
 ### Statistical Modeling
 
 ### Conlusion
 
 ## References
+
+ANNAMARIA GUOLO AND CRISTIANO VARIN, 2014, BETA REGRESSION FOR TIME
+SERIES ANALYSIS OF BOUNDED DATA, WITH APPLICATION TO CANADA GOOGLE® FLU
+TRENDS.
+
+[https://projecteuclid.org/journals/annals-of-applied-statistics/volume-8/issue-1/Beta-regression-for-time-]{.underline}
+[series-analysis-of-bounded-data-with/10.1214/13-AOAS684.full]{.underline}
+
+Mohamed R. Abonazel, Issam Dawoud, Fuad A. Awwad, Adewale F. Lukman,
+2022, Dawoud--Kibria Estimator for Beta Regression Model: Simulation and
+Application.
+https://[www.frontiersin.org/articles/10.3389/fams.2022.775068/full](http://www.frontiersin.org/articles/10.3389/fams.2022.775068/full)
+
+Jacob C. Douma, James T. Weedon, Analyzing continuous proportions in
+ecology and evolution: A practical introduction to beta and Dirichlet
+regression. British Ecological Society,06 June 2019,
+https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.13234,18
+September 2023
+
+Lucas Couri,Raydonal Ospina, Geiza da Silva, Victor Leiva and Jorge
+Figuera-Zuniga, A Study on Computational Algorithms in the Estimation of
+Parameters for a Class of Beta Regression Models, 208 MDPI Journals
+Awarded Impact Factor, 19 January 2022,
+,https://www.mdpi.com/2227-7390/10/3/299, 18 September 2023
+
+Silvia Ferrari & Francisco Cribari-Neto (2004) Beta Regression for
+Modelling Rates and Proportions, Journal of Applied
+Statistics, 31:7, 799-815, DOI: [10.1080/0266476042000214501Links to an
+external site.](https://doi.org/10.1080/0266476042000214501)
+
+Cribari-Neto, F., & Zeileis, A. (2010). Beta Regression in R. *Journal
+of Statistical Software*, *34*(2), 1--24.
+<https://doi.org/10.18637/jss.v034.i02>
+
+Patrícia L. Espinheira, Silvia L.P. Ferrari & Francisco
+Cribari-Neto (2008) On beta regression residuals, Journal of Applied
+Statistics, 35:4, 407-419, DOI: [10.1080/02664760701834931](https://doi.org/10.1080/02664760701834931)
+
+Simas, Alexandre B. & Barreto-Souza, Wagner & Rocha, Andréa V., 2010.
+"[**Improved estimators for a general class of beta regression
+modelsLinks to an external
+site.**](https://ideas.repec.org/a/eee/csdana/v54y2010i2p348-366.html)," [Computational
+Statistics & Data AnalysisLinks to an external
+site.](https://ideas.repec.org/s/eee/csdana.html), Elsevier, vol. 54(2),
+pages 348-366, February.
+
+Schmid M, Wickler F, Maloney KO, Mitchell R, Fenske N, et al.
+(2013) Boosted Beta Regression. PLOS ONE 8(4):
+e61623. [https://doi.org/10.1371/journal.pone.0061623Links to an
+external site.](https://doi.org/10.1371/journal.pone.0061623)
+
+Ospina, R., & Ferrari, S. L. (2012). A general class of zero-or-one
+inflated beta regression models. *Computational Statistics & Data
+Analysis*, *56*(6), 1609-1623.
