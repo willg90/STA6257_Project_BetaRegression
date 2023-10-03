@@ -2,7 +2,8 @@
 title: "Beta Regression"
 author: "Marcus Chery and Keiron Green"
 date: '`r Sys.Date()`'
-format:
+
+format: 
   html:
     code-fold: true
 course: STA 6257 - Advanced Statistical Modeling
@@ -21,26 +22,31 @@ editor:
 
 Beta regression is a statistical methodology tailored to address the
 challenges associated with modeling continuous bounded response
-variables, often constrained within the open interval (0, 1).  Beta
-regression, as introduced by Ferrari & Cribari-Neto (2004) in their
-seminal paper, offers an elegant framework for modeling proportions and
-percentages with an emphasis on interpretability of model parameters.
-This foundational work serves as a cornerstone for subsequent research
-and applications.
+variables, often constrained within the open interval (0, 1). Beta
+regression, as introduced by [@ferrari2004] in their seminal paper,
+offers an elegant framework for modeling proportions and percentages
+with an emphasis on interpretability of model parameters. This
+foundational work serves as a cornerstone for subsequent research and
+applications.
+
+This report delves into the application of beta regression within the
+context of heart disease data analysis. Our objective is to provide a
+thorough understanding of beta regression, its practical implementation
+using the "betareg" package in R, and its real-world relevance through
+heart disease data. Throughout the report, we offer practical examples,
+code snippets, and graphs to facilitate hands-on learning. Additionally,
+we address the limitations of beta regression and discuss potential
+future research directions. The goal of this report is to equip readers
+with the knowledge and skills needed to effectively utilize beta
+regression in heart disease analysis, while also fostering awareness of
+its boundaries and avenues for further exploration.
 
 In beta regression, the dependent variable is assumed to follow a beta
 distribution, and the goal is to model its relationship with one or more
-independent variables.
-
-The beta regression model can be expressed as the following algorithm
-
-![](images/Picture1.jpg)
-
-where p, q \> 0 and Γ(·) is the gamma function.
-
- Beta regression is suitable for data where the response variable lies
-within a closed interval, such as proportions, percentages, or rates. It
-considers both the mean and the dispersion of the data.
+independent variables. Beta regression is suitable for data where the
+response variable lies within a closed interval, such as proportions,
+percentages, or rates. It considers both the mean and the dispersion of
+the data [@ferrari2004] .
 
 The beta distribution is characterized by two parameters: alpha (α) and
 beta (β). These parameters can be modeled as a function of predictor
@@ -50,57 +56,89 @@ influence the shape of the distribution.
 Like logistic regression, beta regression often uses a link function to
 relate the mean of the beta distribution to the linear combination of
 predictor variables. Common link functions include logit, probit, and
-log-log.
-
-The coefficients obtained from beta regression provide insights into how
-changes in the predictor variables affect the distribution of the
-response variable, including its mean and variability.
+log-log. The coefficients obtained from beta regression provide insights
+into how changes in the predictor variables affect the distribution of
+the response variable, including its mean and variability.
 
 Complementing this, the "betareg" package for R, as presented by
-Cribari-Neto & Zeileis (2010), provides various methods and procedures
-for implementing beta regression models in R. Building on the foundation
-laid by Ferrari and Cribari-Neto (2004), Cribari-Neto & Zeileis (2010)
-introduce the "betareg" package for R, offering a practical
-implementation of beta regression models. This paper is instrumental in
-bringing beta regression into the realm of data analysis and showcases
-the package's utility in addressing challenges related to continuous
-bounded response variables.
+[@cri2010], provides various methods and procedures for implementing
+beta regression models in R. Building on the foundation laid by
+[@ferrari2004], [@cri2010] introduce the "betareg" package for R,
+offering a practical implementation of beta regression models. This
+paper is instrumental in bringing beta regression into the realm of data
+analysis and showcases the package's utility in addressing challenges
+related to continuous bounded response variables.
 
-Moreover, the paper authored by Patrícia L. Espinheira, Silvia L.P.
-Ferrari, and Francisco Cribari-Neto unveils innovative residuals, based
-on Fisher's scoring iterative algorithm, enhancing model assessments and
-bias correction---a pivotal contribution to the methodology's practical
-applicability. They address a common challenge in statistical analysis
-by offering a practical solution for improved model assessments and bias
-correction. The study presents new residuals based on Fisher's scoring
-iterative algorithm, demonstrating their superiority in various
-scenarios, particularly in small sample sizes.
+[@guolo2014] seek to expand on beta regression. The authors incorporate
+a Gaussian copula to model serial dependence in the data, making it
+applicable to time series analysis. The study's practical application
+involves analyzing influenza-like-illness incidence data from the Google
+Flu Trends project. Their methodology provides a framework for analyzing
+bounded time series data and offers insights into inference, prediction,
+and control in this context.
 
-Whereas, Simas, Barreto-Souza, & Rocha (2010) delve into bias correction
-methods for beta regression models in the quest for improved estimators
-in beta regression. They address biases in parameter estimation, a
-critical concern. Recognizing the potential for bias in parameter
-estimation, especially in small sample sizes, the paper provides
-closed-form expressions for second-order biases in maximum likelihood
-estimators. The authors present various methods for bias correction,
-including analytical approaches and bootstrap bias adjustment, enhancing
-the accuracy of model assessments and mitigating erroneous conclusions.
+Moreover, the paper authored by [@espinheira2008] unveils innovative
+residuals, based on Fisher's scoring iterative algorithm, enhancing
+model assessments and bias correction---a pivotal contribution to the
+methodology's practical applicability. They address a common challenge
+in statistical analysis by offering a practical solution for improved
+model assessments and bias correction. The study presents new residuals
+based on Fisher's scoring iterative algorithm, demonstrating their
+superiority in various scenarios, particularly in small sample sizes.
 
-Various techniques building upon the foundations of (Ferrari &
-Cribari-Neto, 2004) have been introduced throughout the years. One such
-enhancement is the "boosted beta regression" as a novel extension of
-classical beta regression. Schmid et al. (2013) address complex modeling
-scenarios with many predictor variables, multicollinearity, nonlinear
-relationships, and overdispersion dependencies. They utilize the
-gamboostLSS algorithm to efficiently estimate beta regression models,
-making it possible to fit models while preserving the structure of beta
-regression. The method's effectiveness is demonstrated through
-ecological data applications, highlighting its advantages in terms of
-model fit and prediction accuracy.
+Various papers throughout the years have sought to improve the basic
+beta regression techniques of [@ferrari2004]. [@simas2010] delve into
+bias correction methods for beta regression models in the quest for
+improved estimators in beta regression. They address biases in parameter
+estimation, a critical concern. Recognizing the potential for bias in
+parameter estimation, especially in small sample sizes, the paper
+provides closed-form expressions for second-order biases in maximum
+likelihood estimators. The authors present various methods for bias
+correction, including analytical approaches and bootstrap bias
+adjustment, enhancing the accuracy of model assessments and mitigating
+erroneous conclusions.
+
+Likewise, [@schmid2013] introduced one such enhancement known as the
+"boosted beta regression" as a novel extension of classical beta
+regression. [@schmid2013] address complex modeling scenarios with many
+predictor variables, multicollinearity, nonlinear relationships, and
+overdispersion dependencies. They utilize the gamboostLSS algorithm to
+efficiently estimate beta regression models, making it possible to fit
+models while preserving the structure of beta regression. The method's
+effectiveness is demonstrated through ecological data applications,
+highlighting its advantages in terms of model fit and prediction
+accuracy.
+
+[@abonazel2022] took a different approach. They focused on improving the
+estimation of beta regression models when multicollinearity was present
+among regressors. They introduced the Dawoud--Kibria estimator as an
+alternative to the conventional maximum likelihood estimator (BML) when
+dealing with such situations. The authors derived the properties of this
+new estimator and assess its performance through theoretical
+comparisons, Monte Carlo simulations, and a real-life application.
+
+Finally, it is important to note the challenges of beta regression.
+[@douma2019] addresses one challenge of analyzing proportional data in
+ecology and evolution. Proportional data, common in these fields, pose
+unique statistical challenges due to their bounded nature and varying
+variances. The paper introduces beta and Dirichlet regression techniques
+as effective tools for analyzing such data. These methods allow for
+analysis at the original scale, reducing bias and simplifying
+interpretation. The article provides practical guidance on model fitting
+and reporting.
+
+[@couri2022] focuses on the computational challenges of estimating
+parameters in beta regression models. The authors evaluate ten
+algorithms for parameter estimation and find that four, including
+simulated annealing, perform well. The paper also examines the optim
+function in R and suggests its use in challenging cases. Simulated
+annealing is recommended, particularly when the optim function fails.
+Overall, the research offers insights into improving parameter
+estimation for beta regression models in various applications.
 
 Furthermore, one such limitation of classical beta regression is its
-handling of zero or one inflated data. Ospina & Ferrari (2012) introduce
-a versatile class of regression models, zero-or-one inflated beta
+handling of zero or one inflated data. [@ospina2012] introduce a
+versatile class of regression models, zero-or-one inflated beta
 regression, specifically tailored to address datasets containing
 continuous proportions with zeros or ones. The paper offers a flexible
 solution for modeling mixed continuous-discrete distributions, essential
@@ -114,64 +152,10 @@ selection.
 
 ## Analysis and Results
 
-### Data and Vizualisation
+### Data and Visualization
 
 ### Statistical Modeling
 
-### Conlusion
+### Conclusion
 
 ## References
-
-ANNAMARIA GUOLO AND CRISTIANO VARIN, 2014, BETA REGRESSION FOR TIME
-SERIES ANALYSIS OF BOUNDED DATA, WITH APPLICATION TO CANADA GOOGLE® FLU
-TRENDS.
-
-[https://projecteuclid.org/journals/annals-of-applied-statistics/volume-8/issue-1/Beta-regression-for-time-]{.underline}
-[series-analysis-of-bounded-data-with/10.1214/13-AOAS684.full]{.underline}
-
-Mohamed R. Abonazel, Issam Dawoud, Fuad A. Awwad, Adewale F. Lukman,
-2022, Dawoud--Kibria Estimator for Beta Regression Model: Simulation and
-Application.
-https://[www.frontiersin.org/articles/10.3389/fams.2022.775068/full](http://www.frontiersin.org/articles/10.3389/fams.2022.775068/full)
-
-Jacob C. Douma, James T. Weedon, Analyzing continuous proportions in
-ecology and evolution: A practical introduction to beta and Dirichlet
-regression. British Ecological Society,06 June 2019,
-https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.13234,18
-September 2023
-
-Lucas Couri,Raydonal Ospina, Geiza da Silva, Victor Leiva and Jorge
-Figuera-Zuniga, A Study on Computational Algorithms in the Estimation of
-Parameters for a Class of Beta Regression Models, 208 MDPI Journals
-Awarded Impact Factor, 19 January 2022,
-,https://www.mdpi.com/2227-7390/10/3/299, 18 September 2023
-
-Silvia Ferrari & Francisco Cribari-Neto (2004) Beta Regression for
-Modelling Rates and Proportions, Journal of Applied
-Statistics, 31:7, 799-815, DOI: [10.1080/0266476042000214501Links to an
-external site.](https://doi.org/10.1080/0266476042000214501)
-
-Cribari-Neto, F., & Zeileis, A. (2010). Beta Regression in R. *Journal
-of Statistical Software*, *34*(2), 1--24.
-<https://doi.org/10.18637/jss.v034.i02>
-
-Patrícia L. Espinheira, Silvia L.P. Ferrari & Francisco
-Cribari-Neto (2008) On beta regression residuals, Journal of Applied
-Statistics, 35:4, 407-419, DOI: [10.1080/02664760701834931](https://doi.org/10.1080/02664760701834931)
-
-Simas, Alexandre B. & Barreto-Souza, Wagner & Rocha, Andréa V., 2010.
-"[**Improved estimators for a general class of beta regression
-modelsLinks to an external
-site.**](https://ideas.repec.org/a/eee/csdana/v54y2010i2p348-366.html)," [Computational
-Statistics & Data AnalysisLinks to an external
-site.](https://ideas.repec.org/s/eee/csdana.html), Elsevier, vol. 54(2),
-pages 348-366, February.
-
-Schmid M, Wickler F, Maloney KO, Mitchell R, Fenske N, et al.
-(2013) Boosted Beta Regression. PLOS ONE 8(4):
-e61623. [https://doi.org/10.1371/journal.pone.0061623Links to an
-external site.](https://doi.org/10.1371/journal.pone.0061623)
-
-Ospina, R., & Ferrari, S. L. (2012). A general class of zero-or-one
-inflated beta regression models. *Computational Statistics & Data
-Analysis*, *56*(6), 1609-1623.
