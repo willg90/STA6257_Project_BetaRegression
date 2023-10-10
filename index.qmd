@@ -157,6 +157,137 @@ selection.
 Data: [Heart Disease
 Dataset](https://www.kaggle.com/datasets/johnsmith88/heart-disease-dataset)
 
+### Attribute Information
+
+-Age: age of the patient \[years\]
+
+-Sex: sex of the patient \[M: Male, F: Female\]
+
+-ChestPainType: chest pain type \[TA: Typical Angina, ATA: Atypical
+Angina, NAP: Non-Anginal Pain, ASY: Asymptomatic\]
+
+-RestingBP: resting blood pressure \[mm Hg\]
+
+-Cholesterol: serum cholesterol \[mm/dl\]
+
+-FastingBS: fasting blood sugar \[1: if FastingBS \> 120 mg/dl, 0:
+otherwise\]
+
+-RestingECG: resting electrocardiogram results \[Normal: Normal, ST:
+having ST-T wave abnormality (T wave inversions and/or ST elevation or
+depression of \> 0.05 mV), LVH: showing probable or definite left
+ventricular hypertrophy by Estes' criteria\]
+
+-MaxHR: maximum heart rate achieved \[Numeric value between 60 and 202\]
+
+-ExerciseAngina: exercise-induced angina \[Y: Yes, N: No\]
+
+-Oldpeak: oldpeak = ST \[Numeric value measured in depression\]
+
+-ST_Slope: the slope of the peak exercise ST segment \[Up: upsloping,
+Flat: flat, Down: downsloping\]
+
+-HeartDisease: output class \[1: heart disease, 0: Normal\]
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+```
+
+```{r}
+library(readr)
+heart <- read_csv("heart.csv")
+str(heart)
+
+```
+
+```{r}
+library(dplyr)
+heart <- heart %>%
+      group_by(Cholesterol) %>%
+      mutate(Cholesterol_count_proportional = n()/918)
+head(heart,10)
+```
+
+```{r}
+library(dplyr)
+table(heart$Cholesterol_count)
+
+heart <- heart %>%
+      group_by(Cholesterol) %>%
+      mutate(Cholesterol_count = n())
+
+heart <- heart %>%
+      group_by(Cholesterol) %>%
+      mutate(Cholesterol_count_proportional = n()/918)
+
+head(heart,10)
+```
+
+```{r}
+table(heart$Cholesterol)
+```
+
+```{r}
+range(heart$Cholesterol)
+den <- density(heart$Cholesterol)
+ 
+plot(den, frame = FALSE, col = "blue",main = "Density plot")
+```
+
+```{r}
+heart %>%
+  keep(is.numeric) %>% 
+  gather() %>% 
+  ggplot(aes(value)) +
+    facet_wrap(~ key, scales = "free") +
+    geom_histogram()
+```
+
+```{r}
+ggplot(heart, aes(x = factor(HeartDisease))) +
+    geom_bar(fill = "red" ,alpha = 0.1) +
+    theme_classic() +
+    ggtitle("                                    Plot of Heart Disease ")+
+    xlab("Heart Disease") + ylab("   ")
+```
+
+```{r}
+h <- hist(heart$Age,ylim = c(0,250),col = "lightgreen",main = "    Age Distribution",xlab = "Age Groups")
+text(h$mids,h$counts,labels=h$counts, adj=c(0.5, -0.5))
+#lines(density(heart$Age),lwd = 2, col = 'red')
+```
+
+```{r}
+ggplot(heart, aes(x = factor(ChestPainType))) +
+    geom_bar(fill = "coral",alpha = 0.7) +
+    theme_classic() +
+    ggtitle("                                    Plot of Type of Chest Pain ")+
+    xlab("Chest Pain") + ylab("   ")
+```
+
+```{r}
+ggplot(heart, aes(x = factor(ChestPainType), fill = Sex)) +
+    geom_bar(position = position_dodge()) +
+    theme_classic() +
+    ggtitle("                                    Plot of Gender vs Heart Disease ")+
+    xlab("Heart Disease") + ylab("   ")
+```
+
+```{r}
+ggplot(heart, aes(x = factor(HeartDisease), fill = Sex)) +
+    geom_bar() +
+    theme_classic()+
+    ggtitle("                                    Plot of Gender vs Heart Disease ")+
+    xlab("Heart Disease") + ylab("   ")
+
+ggplot(heart, aes(x = factor(HeartDisease), fill = Sex)) +
+    geom_bar(position = position_dodge()) +
+    theme_classic() +
+    ggtitle("                                    Plot of Gender vs Heart Disease ")+
+    xlab("Heart Disease") + ylab("   ")
+```
+
 ### Statistical Modeling
 
 ### Conclusion
