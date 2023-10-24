@@ -214,29 +214,25 @@ link function.
 
 ### Data and Visualization
 
-Data: [Heart Disease
-Dataset](https://www.kaggle.com/datasets/johnsmith88/heart-disease-dataset)
+Data: [**University Admission
+Data**](https://www.kaggle.com/datasets/akshaydattatraykhare/data-for-admission-in-the-university/data)
 
 ### Attribute Information
 
-| Variable       | Variable Definition                                                                                                                                                                                                                           |
-|----------------|:-------------------------------------------------------|
-| Age            | age of the patient \[years\].                                                                                                                                                                                                                 |
-| Sex            | sex of the patient \[M: Male, F: Female\]                                                                                                                                                                                                     |
-| ChestPainType  | chest pain type \[TA: Typical Angina, ATA: AtypicalAngina, NAP: Non-Anginal Pain, ASY:Asymptomatic\]                                                                                                                                          |
-| RestingBP      | resting blood pressure \[mm Hg\]                                                                                                                                                                                                              |
-| Cholesterol    | serum cholesterol \[mm/dl\].                                                                                                                                                                                                                  |
-| FastingBS      | fasting blood sugar \[1: if FastingBS \> 120 mg/dl, 0:otherwise\]                                                                                                                                                                             |
-| RestingECG     | resting electrocardiogram results \[Normal: Normal, ST: having ST-T wave abnormality (T wave inversions and/or ST elevation or depression of \> 0.05 mV), LVH: showing probable or definite left ventricular hypertrophy by Estes' criteria\] |
-| MaxHR          | maximum heart rate achieved \[Numeric value between 60 and 202\]                                                                                                                                                                              |
-| ExerciseAngina | exercise-induced angina \[Y: Yes, N: No\]                                                                                                                                                                                                     |
-| Oldpeak        | oldpeak = ST \[Numeric value measured in depression\]                                                                                                                                                                                         |
-| ST_Slope       | the slope of the peak exercise ST segment \[Up: upsloping,Flat: flat, Down: downsloping\]                                                                                                                                                     |
-| HeartDisease.  | output class \[1: heart disease, 0: Normal\]                                                                                                                                                                                                  |
+| Variable                                                               | Variable Definition      |
+|------------------------------------------------------------------------|:-------------------------|
+| GRE Scores                                                             | ( out of 340 ).          |
+| TOEFL Scores                                                           | ( out of 120 ).          |
+| University Rating                                                      | ( out of 5 ).            |
+| Statement of Purpose (SOP) and Letter of Recommendation (LOR) Strength | ( out of 5 )             |
+| Undergraduate GPA                                                      | ( out of 10 ).           |
+| Research Experience                                                    | ( either 0 or 1 ).       |
+| Chance of Admit                                                        | ( ranging from 0 to 1 ). |
 
 ### Libraries
 
 ```{r}
+#install.packages("janitor")
 library(tidyverse)
 library(ggplot2)
 library(readr)
@@ -245,125 +241,67 @@ library(betareg)
 library(lmtest)
 library(car)
 library(rcompanion)
+library(janitor)
+library(here)
 ```
 
-### Loading Heart Dataset
+### Loading Dataset
 
 ```{r}
-heart <- read_csv("heart.csv")
-#str(heart)
-head(heart,5)
+admission <- read_csv("adm_data.csv")
+#str(admission)
+
+admission <- admission %>%
+  clean_names()
+
+head(admission,5)
 ```
 
-### Response Variable Creation and Analysis
+### Exploratory Data Analysis
 
 ```{r}
-heart <- heart %>%
-      group_by(Cholesterol) %>%
-      mutate(Cholesterol_count_proportional = n()/918)
-heart <- heart %>%
-      group_by(Cholesterol) %>%
-      mutate(Cholesterol_count = n())
+#create scatterplot of x1 vs. y1
+plot(chance_of_admit ~ gre_score , data = admission, col='green', pch=19,
+     xlab='Test Score', ylab='Chance of Admit', main='Chance of Admit vs Gre Score vs Toefl Score', xlim = c(75,350))
 
-heart_reduced <- subset(heart, select = c(Cholesterol,Cholesterol_count,Cholesterol_count_proportional))
-
-#table(heart$Cholesterol_count)
-                
-head(heart_reduced,10)
-summary(heart_reduced)
-```
-
-```{r}
-#table(heart$Cholesterol)
-#table(heart$Cholesterol_count_proportional)
-```
-
-## Exploratory Data Analysis
-
-```{r}
-# Analyzing the distribution of cholesterol variable
-#den <- density(heart$Cholesterol)
-#plot(den, frame = FALSE, col = "blue",main = "Cholesterol density plot", xlab = "Cholesterol values", ylab = 'Frequency')
+#add scatterplot of x2 vs. y2
+points(chance_of_admit ~ toefl_score, data = admission, col='blue', pch=19)
 ```
 
 ```{r}
-heart %>%
-  keep(is.numeric) %>% 
-  gather() %>% 
-  ggplot(aes(value)) +
-    facet_wrap(~ key, scales = "free") +
-    geom_histogram()
+#create scatterplot of x1 vs. y1
+plot(chance_of_admit ~ toefl_score , data = admission, col='red', pch=19,
+     xlab='Toefl Score', ylab='Chance of Admit', main='Chance of Admit vs Toefl Score')
+
+# Linear fit
+abline(lm(admission$chance_of_admit ~ admission$toefl_score), col = "black", lwd = 3)
+
+# Smooth fit
+lines(lowess(admission$chance_of_admit ~ admission$toefl_score), col = "orange", lwd = 3)
+
+# Legend
+legend("topleft", legend = c("Linear", "Smooth"),
+       lwd = 3, lty = c(2, 1, 1), col = c( "black", "orange"))
 ```
 
 ```{r}
-ggplot(heart, aes(x = factor(HeartDisease))) +
-    geom_bar(fill = "red" ,alpha = 0.1,) +
-    scale_x_discrete(labels= c("0"="Heart Disease","1"="No Heart Disease")) +
-    theme_classic()  +
-    ggtitle("                                    Plot of Heart Disease ")  +
-    xlab("Heart Disease") + ylab(" The number of patients ") 
-```
+#create scatterplot of x1 vs. y1
+plot(chance_of_admit ~ gre_score , data = admission, col='blue', pch=19,
+     xlab='GRE Score', ylab='Chance of Admit', main='Chance of Admit vs Gre Score')
 
-```{r}
-h <- hist(heart$Age,ylim = c(0,250),col = "lightgreen",main = "    Age Distribution",xlab = "Age Groups", ylab = " The number of patients")
-text(h$mids,h$counts,labels=h$counts, adj=c(0.5, -0.5))
-```
+# Linear fit
+abline(lm(admission$chance_of_admit ~ admission$gre_score), col = "black", lwd = 3)
 
-```{r}
-ggplot(heart, aes(x = factor(ChestPainType))) +
-    geom_bar(fill = "coral",alpha = 0.7) +
-    theme_classic() +
-    ggtitle("                   The plot of the count of different types of chest pain  ")+
-    xlab("The type Chest Pain") + ylab(" The number of patients  ")
-```
+# Smooth fit
+lines(lowess(admission$chance_of_admit ~ admission$gre_score), col = "orange", lwd = 3)
 
-```{r}
-ggplot(heart, aes(x = factor(ChestPainType), fill = Sex)) +
-    geom_bar(position = position_dodge()) +
-    theme_classic() +
-    ggtitle("                                    Plot of Gender vs type of chest pain ")+
-    xlab("The type Chest Pain") + ylab(" The number of patients  ")
-```
-
-```{r}
-ggplot(heart, aes(x = factor(HeartDisease), fill = Sex)) +
-    geom_bar(position = position_dodge()) +
-    scale_x_discrete(labels= c("0"="Heart Disease","1"="No Heart Disease")) +
-    theme_classic() +
-    ggtitle("                           Plot of Gender vs Heart Disease ")+
-    xlab("Heart Disease") + ylab(" The number of patients  ")
-```
-
-### Statistical Modeling
-
-```{r}
-model.beta = betareg(Cholesterol_count_proportional ~ ., data=heart)
-summary(model.beta)
-```
-
-```{r}
-model.betaA = betareg(Cholesterol_count_proportional ~ ., data=heart)
-model.beta = betareg(Cholesterol_count_proportional ~ Cholesterol, data=heart)
-lrtest(model.betaA,model.beta)
+# Legend
+legend("topleft", legend = c("Linear", "Smooth"),
+       lwd = 3, lty = c(2, 1, 1), col = c( "black", "orange"))
 
 ```
 
-```{r}
-#install.packages("emmeans")
-#library(emmeans)
-
-#joint_tests(model.beta,rg.limit)
-```
-
-```{r}
-#Anova(model.beta)
-plotPredy(data  = heart,
-          y     = Cholesterol_count_proportional,
-          x     = Cholesterol,
-          model = model.beta,
-          xlab  = "Cholesterol values",
-         ylab  = "Proportions")
-```
+################################################################################################################# 
 
 ### Conclusion
 
