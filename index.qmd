@@ -154,32 +154,61 @@ Our objective is to investigate the relationship and effect of the given
 variables on the response variable which in this case is the cholesterol
 count proportional. Being that the chosen response is proportional in
 nature, linear regression is not appropriate. The suitable approach is
-the implementation of beta regression. Beta regression is used when the
-response variable is continuous and falls within the standard unit
-interval (0 to 1). It assumes that the response follows a beta
-distribution, known for its flexibility in modeling proportions due to
-the various shapes its density can take based on the distribution's
-parameters. The beta distribution is as follows
-
-$$ f(x;\alpha,\beta) =\frac{ \Gamma(\alpha + \beta)}{\Gamma(\alpha)*\Gamma(\beta)}x^{\alpha-1}(1-x)^{\beta-1}$$
-
-Our objective is to implement beta regression to predict the proportion
-values based on grouped cholesterol values. In other words,using beta
-regression to predict the proportion of a specific cholesterol value
-given that chosen cholesterol value.
-
-Before implementing the beta regression, it was necessary to create the
+the implementation of beta regression. The reason as to why linear
+regression is not appropriate is due predicted values falling outside
+the bound of (0,1) where as all the proportional values are within the
+bounds of 0 and 1.Our objective is to implement beta regression to
+predict the proportion values based on grouped cholesterol values.In
+other words,using beta regression to predict the proportion of a
+specific cholesterol value given that chosen cholesterol value.Before
+implement the beta regression, it was necessary to create the
 proportional variable. This was done by counting similar cholesterol
 values and grouping them together then dividing the grouped values by
 the total number of examples in the data set.
 
-After creating the proportional response -
-Cholesterol_count_proportional, the beta regression algorithm is
-implemented. Before delving into the implementation of the beta
+After the creation the proportional response,
+Cholesterol_count_proportional,the beta regression algorithm is
+implemented.Before delving into the implementation of the beta
 regression let's briefly analyze the mathematics of the beta regression
-algorithm. The beta regression uses the logit function to plot
-probabilities between the interval 0 and 1. The logit function can be
-seen below. $$ logit(p) = log(p/(1-p))$$
+algorithm. The beta regression is based on the logit function. The logit
+function plots probabilities between the interval 0 and 1. The logit
+function can be seen below. $$ logit(p) = log(p/(1-p))$$
+
+Another formula which will need to be accounted for in predicting the
+proportionality values is the beta density.The beta density is
+especially useful in modelling probabilities as it works on the interval
+\[0,1\] When implementing beta regression it is assumed that the
+response variable follows a beta distribution hence the name beta
+regression.
+
+The beta density formula is below. $$ 
+f(x;\alpha,\beta) =\frac{ \Gamma(p + q)}{\Gamma(p)*\Gamma(q)}x^{p-1}(1-x)^{q-1}
+$$ , $$ 0 < y < 1 $$ where $p,q$ \> 0 and $\Gamma (.)$ is the Gamma
+function. An alternate parameterization was proposed by (Ferrari and
+Cribari-Neto 2004) by setting $u = p/(p+q)$ and $\phi = p + q$
+
+$$
+ f(y;\mu,\phi)=\frac{\Gamma(\phi)}{\Gamma(\mu\phi)\Gamma((1-\mu)\phi)} y^{\mu\phi-1}(1-y)^{(1-\mu)(\phi-1)}
+$$
+
+$$0<y<1$$
+
+with $0 < u < 1$ and $\phi > 0$.
+
+We denote $y\sim B(u,\phi)$ where $E(y)=u$ and $VAR(y)=u(1-u)/(1+\phi)$.
+The $\phi$ is known as the precision parameter. For a fixed value of $u$
+as the $\phi$ increases the variance of the response variable $y$
+decreases.
+
+Let $y_1,.....,y_n$ be a random sample set given that
+\$y_i\simB(u_i,\phi), i = 1,......,n. The beta regression model is
+defined as $$ g(u_i) = x^T_iB = n_i$$ where $B=(B_1,....,B_k)$ is a
+$k*1$ vector of unknown regression parameters
+$(k<n),x_i=(x_i,......x_n)^T$ is the vector of k regressors(independent
+variables or covariates) and $n_i$ is a linear predictor -
+i.e.,$n_i = B_1x_{i1}+...+B_kx_{ik};$ usually $x_{i1}$ = 1 for all $i$
+so that the model has an intercept.The $g(.): (0,1) -> IR$ represent the
+link function.
 
 ## Analysis and Results
 

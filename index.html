@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Marcus Chery and Keiron Green">
-<meta name="dcterms.date" content="2023-10-16">
+<meta name="dcterms.date" content="2023-10-24">
 
 <title>Beta Regression</title>
 <style>
@@ -3171,7 +3171,7 @@ return!"\t\n\x0B\f\r                　\u2028\u2029
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 16, 2023</p>
+      <p class="date">October 24, 2023</p>
     </div>
   </div>
   
@@ -3200,11 +3200,19 @@ return!"\t\n\x0B\f\r                　\u2028\u2029
 </section>
 <section id="methods" class="level2">
 <h2 class="anchored" data-anchor-id="methods">Methods</h2>
-<p>Our objective is to investigate the relationship and effect of the given variables on the response variable which in this case is the cholesterol count proportional. Being that the chosen response is proportional in nature, linear regression is not appropriate. The suitable approach is the implementation of beta regression. Beta regression is used when the response variable is continuous and falls within the standard unit interval (0 to 1). It assumes that the response follows a beta distribution, known for its flexibility in modeling proportions due to the various shapes its density can take based on the distribution’s parameters. The beta distribution is as follows</p>
-<p><span class="math display">\[ f(x;\alpha,\beta) =\frac{ \Gamma(\alpha + \beta)}{\Gamma(\alpha)*\Gamma(\beta)}x^{\alpha-1}(1-x)^{\beta-1}\]</span></p>
-<p>Our objective is to implement beta regression to predict the proportion values based on grouped cholesterol values. In other words,using beta regression to predict the proportion of a specific cholesterol value given that chosen cholesterol value.</p>
-<p>Before implementing the beta regression, it was necessary to create the proportional variable. This was done by counting similar cholesterol values and grouping them together then dividing the grouped values by the total number of examples in the data set.</p>
-<p>After creating the proportional response - Cholesterol_count_proportional, the beta regression algorithm is implemented. Before delving into the implementation of the beta regression let’s briefly analyze the mathematics of the beta regression algorithm. The beta regression uses the logit function to plot probabilities between the interval 0 and 1. The logit function can be seen below. <span class="math display">\[ logit(p) = log(p/(1-p))\]</span></p>
+<p>Our objective is to investigate the relationship and effect of the given variables on the response variable which in this case is the cholesterol count proportional. Being that the chosen response is proportional in nature, linear regression is not appropriate. The suitable approach is the implementation of beta regression. The reason as to why linear regression is not appropriate is due predicted values falling outside the bound of (0,1) where as all the proportional values are within the bounds of 0 and 1.Our objective is to implement beta regression to predict the proportion values based on grouped cholesterol values.In other words,using beta regression to predict the proportion of a specific cholesterol value given that chosen cholesterol value.Before implement the beta regression, it was necessary to create the proportional variable. This was done by counting similar cholesterol values and grouping them together then dividing the grouped values by the total number of examples in the data set.</p>
+<p>After the creation the proportional response, Cholesterol_count_proportional,the beta regression algorithm is implemented.Before delving into the implementation of the beta regression let’s briefly analyze the mathematics of the beta regression algorithm. The beta regression is based on the logit function. The logit function plots probabilities between the interval 0 and 1. The logit function can be seen below. <span class="math display">\[ logit(p) = log(p/(1-p))\]</span></p>
+<p>Another formula which will need to be accounted for in predicting the proportionality values is the beta density.The beta density is especially useful in modelling probabilities as it works on the interval [0,1] When implementing beta regression it is assumed that the response variable follows a beta distribution hence the name beta regression.</p>
+<p>The beta density formula is below. <span class="math display">\[
+f(x;\alpha,\beta) =\frac{ \Gamma(p + q)}{\Gamma(p)*\Gamma(q)}x^{p-1}(1-x)^{q-1}
+\]</span> , <span class="math display">\[ 0 &lt; y &lt; 1 \]</span> where <span class="math inline">\(p,q\)</span> &gt; 0 and <span class="math inline">\(\Gamma (.)\)</span> is the Gamma function. An alternate parameterization was proposed by (Ferrari and Cribari-Neto 2004) by setting <span class="math inline">\(u = p/(p+q)\)</span> and <span class="math inline">\(\phi = p + q\)</span></p>
+<p><span class="math display">\[
+f(y;\mu,\phi)=\frac{\Gamma(\phi)}{\Gamma(\mu\phi)\Gamma((1-\mu)\phi)} y^{\mu\phi-1}(1-y)^{(1-\mu)(\phi-1)}
+\]</span></p>
+<p><span class="math display">\[0&lt;y&lt;1\]</span></p>
+<p>with <span class="math inline">\(0 &lt; u &lt; 1\)</span> and <span class="math inline">\(\phi &gt; 0\)</span>.</p>
+<p>We denote <span class="math inline">\(y\sim B(u,\phi)\)</span> where <span class="math inline">\(E(y)=u\)</span> and <span class="math inline">\(VAR(y)=u(1-u)/(1+\phi)\)</span>. The <span class="math inline">\(\phi\)</span> is known as the precision parameter. For a fixed value of <span class="math inline">\(u\)</span> as the <span class="math inline">\(\phi\)</span> increases the variance of the response variable <span class="math inline">\(y\)</span> decreases.</p>
+<p>Let <span class="math inline">\(y_1,.....,y_n\)</span> be a random sample set given that $y_i(u_i,), i = 1,……,n. The beta regression model is defined as <span class="math display">\[ g(u_i) = x^T_iB = n_i\]</span> where <span class="math inline">\(B=(B_1,....,B_k)\)</span> is a <span class="math inline">\(k*1\)</span> vector of unknown regression parameters <span class="math inline">\((k&lt;n),x_i=(x_i,......x_n)^T\)</span> is the vector of k regressors(independent variables or covariates) and <span class="math inline">\(n_i\)</span> is a linear predictor - i.e.,<span class="math inline">\(n_i = B_1x_{i1}+...+B_kx_{ik};\)</span> usually <span class="math inline">\(x_{i1}\)</span> = 1 for all <span class="math inline">\(i\)</span> so that the model has an intercept.The <span class="math inline">\(g(.): (0,1) -&gt; IR\)</span> represent the link function.</p>
 </section>
 <section id="analysis-and-results" class="level2">
 <h2 class="anchored" data-anchor-id="analysis-and-results">Analysis and Results</h2>
