@@ -1,5 +1,5 @@
 ---
-title: "Beta Regression"
+title: "Predicting Students' Chance of Admission Using Beta Regression"
 author: "Marcus Chery and Keiron Green"
 date: '`r Sys.Date()`'
 
@@ -220,7 +220,7 @@ Dataset](https://www.kaggle.com/datasets/johnsmith88/heart-disease-dataset)
 ### Attribute Information
 
 | Variable       | Variable Definition                                                                                                                                                                                                                           |
-|----------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|----------------|:-------------------------------------------------------|
 | Age            | age of the patient \[years\].                                                                                                                                                                                                                 |
 | Sex            | sex of the patient \[M: Male, F: Female\]                                                                                                                                                                                                     |
 | ChestPainType  | chest pain type \[TA: Typical Angina, ATA: AtypicalAngina, NAP: Non-Anginal Pain, ASY:Asymptomatic\]                                                                                                                                          |
