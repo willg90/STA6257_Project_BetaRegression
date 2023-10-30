@@ -301,7 +301,75 @@ legend("topleft", legend = c("Linear", "Smooth"),
 
 ```
 
-################################################################################################################# 
+```{r}
+# Scatter plot with smoother for 'cgpa' vs 'chance_of_admit' with color encoding for 'research'
+ggplot(admission, aes(x = cgpa, y = chance_of_admit, color = factor(research))) +
+  geom_point(size = 3, alpha = 0.6) +
+  geom_smooth(method = "lm", se = FALSE, color = "black", size = 1, linetype = "dashed") +
+  labs(x = "CGPA", y = "Chance of Admit", color = "Research") +
+  ggtitle("Scatter plot with Smoother: CGPA vs Chance of Admit") +
+  theme_minimal()
+
+# Box plot for 'university_rating' and 'chance_of_admit'
+ggplot(admission, aes(x = factor(university_rating), y = chance_of_admit)) +
+  geom_boxplot(fill = "#69b3a2", alpha = 0.7) +
+  labs(x = "University Rating", y = "Chance of Admit") +
+  ggtitle("Box plot: University Rating and Chance of Admit") +
+  theme_minimal()
+```
+
+```{r}
+# Compute the correlation matrix
+cor_matrix <- cor(select(admission, -serial_no))
+
+# Convert the correlation matrix to a data frame
+cor_df <- as.data.frame(as.table(cor_matrix))
+names(cor_df) <- c("var1", "var2", "correlation")
+
+# Create the correlation plot
+ggplot(cor_df, aes(var1, var2, fill = correlation)) +
+  geom_tile() +
+  scale_fill_gradient2(low = "#f7fbff", mid = "white", high = "#08306b", midpoint = 0, name = "Correlation") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) +
+  ggtitle("Correlation Plot")
+```
+
+## Statistical Modeling
+
+```{r}
+# Load necessary libraries
+library(betareg)
+library(ggplot2)
+```
+
+```{r}
+
+# Fit the beta regression model
+betareg_model <- betareg(chance_of_admit ~ gre_score + cgpa, data = admission)
+summary(betareg_model)
+
+
+# Scatter plot of observed vs. predicted values
+admission$predicted_values <- predict(betareg_model, type = "response")
+ggplot(admission, aes(x = chance_of_admit, y = predicted_values)) +
+  geom_point(color = "blue", alpha = 0.6) +
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "red") +
+  labs(x = "Observed Values", y = "Predicted Values") +
+  ggtitle("Scatter plot of Observed vs. Predicted Values") +
+  theme_minimal()
+
+# Visualize the regression coefficients
+coef_df <- data.frame(
+  Variables = names(coef(betareg_model)),
+  Coefficients = coef(betareg_model)
+)
+ggplot(coef_df, aes(x = Variables, y = Coefficients, fill = Variables)) +
+  geom_bar(stat = "identity", alpha = 0.7) +
+  labs(x = "Variables", y = "Coefficients", title = "Beta Regression Coefficients") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
 
 ### Conclusion
 
