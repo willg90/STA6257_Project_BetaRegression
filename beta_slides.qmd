@@ -1,0 +1,540 @@
+---
+title: "Predicting Students' Chance of Admission Using Beta Regression"
+author: "Marcus Chery and Keiron Green"
+date: '`r Sys.Date()`'
+
+format: revealjs
+course: STA 6257 - Advanced Statistical Modeling
+bibliography: references.bib # file contains bibtex for references
+#always_allow_html: true # this allows to get PDF with HTML features
+self-contained: true
+execute: 
+  warning: false
+  message: false
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+## Introduction
+
+::: panel-tabset
+### What is Beta Regression?
+
+Beta regression is a type of statistical analysis used for modeling
+dependent variables that are bounded on both sides, typically between 0
+and 1. It is particularly useful for variables that represent
+proportions or percentages.
+
+-   **Definition**: A statistical technique for modeling data that
+    follows a beta distribution.
+-   **Key Characteristics**:
+    -   Deals with continuous variables bounded between 0 and 1.
+    -   Suitable for rates or proportions.
+
+### Applications and Importance
+
+-   **Uses**:
+    -   Ideal for modeling rates and proportions in finance, biology,
+        and social sciences.
+-   **Importance**:
+    -   Provides more flexibility and accuracy for bounded data compared
+        to traditional regression.
+
+### How Beta Regression Works
+
+-   **Mechanics**:
+    -   Models the effect of predictors on the mean of a
+        beta-distributed response variable.
+    -   Incorporates a link function, similar to logistic regression.
+    -   Estimation typically done through maximum likelihood methods.
+
+### PDF of the Beta Distribution
+
+![By Pabloparsil --- Own work, CC BY-SA 4.0,
+https://commons.wikimedia.org/w/index.php?curid=89335966](images/PDF_of_the_Beta_distribution.gif){width="531"}
+:::
+
+## Methods
+
+## Data
+
+Data: [**University Admission
+Data**](https://www.kaggle.com/datasets/akshaydattatraykhare/data-for-admission-in-the-university/data)
+
+### Attribute Information
+
++-------------+-------------+-------------+-------------------+
+| Variable    | Parameter   | Range       | Description       |
++=============+=============+:============+===================+
+| GRE Scores  | gre_score   | 290 - 340   | Quantifies a      |
+|             |             |             | candidate's       |
+|             |             | (340 scale) | performance on    |
+|             |             |             | the Graduate      |
+|             |             |             | Record            |
+|             |             |             | Examination, with |
+|             |             |             | a maximum score   |
+|             |             |             | of 340            |
++-------------+-------------+-------------+-------------------+
+| TOEFL       | to          | 92 - 120    | Measures English  |
+| Scores      | efl_score   |             | language          |
+|             |             | (120 scale) | proficiency,      |
+|             |             |             | scored out of a   |
+|             |             |             | total of 120      |
+|             |             |             | points            |
++-------------+-------------+-------------+-------------------+
+| Un iversity | universi    | 1 to 5 with | Rates             |
+| Rating      | ty_rating   | 5 being the | universities on a |
+|             |             | highest     | scale from 1 to   |
+|             |             | rating      | 5, indicating     |
+|             |             |             | their overall     |
+|             |             |             | quality and       |
+|             |             |             | reputation.       |
++-------------+-------------+-------------+-------------------+
+| S tatement  | sop         | 1 to 5 with | Evaluates the     |
+| of Purpose  |             | 5 being the | strength and      |
+| (SOP)       |             | highest     | quality of a      |
+| Strength    |             | rating      | candidate's SOP   |
+|             |             |             | on a scale of 1   |
+|             |             |             | to 5              |
++-------------+-------------+-------------+-------------------+
+| Letter of   | lor         | 1 to 5 with | Evaluates the     |
+| Reccomm     |             | 5 being the | strength and      |
+| endation    |             | highest     | quality of a      |
+| (LOR)       |             | rating      | candidate's SOP   |
+| Strength    |             |             | and LOR on a      |
+|             |             |             | scale of 1 to 5   |
++-------------+-------------+-------------+-------------------+
+| Under       | cgpa        | 6.8 - 9.92  | Reflects a        |
+| graduate    |             |             | student's         |
+| GPA         |             | (10.0       | academic          |
+|             |             | scale)      | performance in    |
+|             |             |             | their             |
+|             |             |             | undergraduate     |
+|             |             |             | studies, scored   |
+|             |             |             | on a 10-point     |
+|             |             |             | scale             |
++-------------+-------------+-------------+-------------------+
+| Research Ex | research    | 0 or 1      | Indicates whether |
+| perience    |             |             | a candidate has   |
+|             |             |             | research          |
+|             |             |             | experience (1) or |
+|             |             |             | not (0).          |
++-------------+-------------+-------------+-------------------+
+| Chance of   | chance\     | 0.34 - 0.97 | Represents the    |
+| Admit       | \_of_admit  |             | likelihood of a   |
+|             |             | (0 to 1     | student being     |
+|             |             | scale)      | admitted,         |
+|             |             |             | expressed as a    |
+|             |             |             | decimal between 0 |
+|             |             |             | and 1             |
++-------------+-------------+-------------+-------------------+
+
+### Libraries
+
+Load necessary packages for analysis and modeling.
+
+```{r, warning=FALSE, message=FALSE}
+#install.packages("janitor")
+#install.packages("caTools")
+#Insatll required packages
+#install.packages('caret')
+library(caret)
+library(reshape2)
+library(tidyverse)
+library(ggplot2)
+library(readr)
+library(dplyr)
+library(betareg)
+library(lmtest)
+library(car)
+library(rcompanion)
+library(janitor)
+library(here)
+library(caTools)
+library(pROC)
+```
+
+### Loading Dataset
+
+```{r, warning=FALSE, message=FALSE}
+admission <- read_csv("adm_data.csv")
+#str(admission)
+
+admission <- admission %>%
+  clean_names()
+
+head(admission,5)
+```
+
+### Chance of Admit and TOEFL
+
+Based on exploratory data analysis, TOEFL scores appear to be associated
+with a greater chance of admission, this chance of admission is further
+augmented by higher university ratings, and research experience appears
+to be a strong factor in increasing both TOEFL scores and the likelihood
+of admission.
+
+```{r, warning=FALSE, message=FALSE}
+ggplot(admission, aes(x = toefl_score, y = chance_of_admit)) +
+  geom_point(color = "#1f77b4", alpha = 0.6) +
+  geom_smooth(method = "lm", color = "black", se = FALSE) +
+  geom_smooth(method = "loess", color = "orange", se = FALSE) +
+  labs(x = "TOEFL Score", y = "Chance of Admission", title = "Linear and Smooth Fit: Chance of Admission vs TOEFL Score") +
+  theme_minimal() +
+  theme(plot.title = element_text(color = "black", size = 14, face = "bold"),
+        axis.title = element_text(size = 12),
+        axis.text = element_text(size = 10),
+        legend.position = "bottom")
+
+
+```
+
+The correlation coefficient of 0.791594 between TOEFL scores and the
+chance of admit suggests a strong positive relationship. This indicates
+that as TOEFL scores increase, the chance of admission tends to increase
+as well.
+
+```{r, warning=FALSE, message=FALSE}
+ggplot(admission, aes(x = toefl_score, y = chance_of_admit, color = as.factor(university_rating))) +
+  geom_jitter(width = .2, size = I(3)) +
+  scale_color_manual(values = c("#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd")) +
+  labs(x = "TOEFL Score", y = "Chance of Admission", color = "University Rating", 
+       title = "Chance of Admit by TOEFL Score per University Ranking") +
+  theme_minimal() +
+  theme(plot.title = element_text(color = "black", size = 14, face = "bold"),
+        axis.title = element_text(size = 12),
+        axis.text = element_text(size = 10)) +
+  geom_smooth(method = "lm", se = FALSE)
+
+
+```
+
+This trend indicates that applicants to higher-rated universities
+generally have a higher chance of admission. The standard deviation
+decreases as the university rating increases, suggesting more
+consistency in admission chances at higher-rated universities.
+
+```{r, warning=FALSE, message=FALSE}
+ggplot(admission, aes(x = toefl_score, y = chance_of_admit, color = as.factor(research))) +
+  geom_jitter(width = .2) +
+  scale_color_manual(values = c("#270181", "coral")) +
+  labs(x = "TOEFL Score", y = "Chance of Admission", color = "Research Experience", 
+       title = "Chance of Admit by TOEFL Score per Research Experience") +
+  theme_minimal() +
+  theme(plot.title = element_text(color = "black", size = 14, face = "bold"),
+        legend.position = "bottom") +
+  geom_smooth(method = "lm", se = FALSE)
+
+```
+
+Applicants with research experience (Research = 1) have a higher average
+TOEFL score (approx. 110) compared to those without research experience
+(Research = 0), who have an average TOEFL score of about 104.
+
+The mean chance of admission for applicants with research experience is
+significantly higher (approx. 0.796) than for those without (approx.
+0.638).
+
+This data suggests that research experience is positively associated
+with both higher TOEFL scores and a greater likelihood of admission.
+
+### Chance of Admit and GRE
+
+These analyses suggest that higher GRE scores are strongly correlated
+with an increased chance of admission. The likelihood of admission also
+appears to be influenced by the university rating and is further
+enhanced by research experience.
+
+```{r, warning=FALSE, message=FALSE}
+library(ggplot2)
+
+ggplot(admission, aes(x = gre_score, y = chance_of_admit)) +
+  geom_point(color = "#1f77b4", alpha = 0.6) +
+  geom_smooth(method = "lm", color = "black", se = FALSE) +
+  geom_smooth(method = "loess", color = "orange", se = FALSE) +
+  labs(x = "GRE Score", y = "Chance of Admission", 
+       title = "Chance of Admit vs GRE Score") +
+  theme_minimal() +
+  theme(plot.title = element_text(color = "black", size = 14, face = "bold"),
+        axis.title = element_text(size = 12),
+        axis.text = element_text(size = 10),
+        legend.position = "bottom") +
+  guides(color = guide_legend(title = "Type of Fit", 
+                              override.aes = list(linetype = c("solid", "dashed"))))
+
+
+```
+
+A correlation coefficient of 0.8026105 indicates a strong positive
+relationship between GRE scores and the chance of admission. This
+suggests that higher GRE scores are generally associated with a higher
+likelihood of being admitted.
+
+```{r, warning=FALSE, message=FALSE}
+ggplot(admission, aes(x = gre_score, y = chance_of_admit, color = as.factor(university_rating))) +
+  geom_point() + 
+  scale_color_manual(values = c("#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd")) +
+  labs(x = "GRE Score", y = "Chance of Admission", color = "University Rating", 
+       title = "Chance of Admit by GRE Score per University Ranking") +
+  theme_minimal() +
+  theme(plot.title = element_text(color = "black", size = 14, face = "bold"),
+        legend.position = "bottom") +
+  geom_smooth(method = "lm", se = FALSE)
+
+```
+
+This trend suggests that applicants to higher-rated universities have a
+higher chance of admission, with the chance of admission being most
+favorable at the highest-rated universities.
+
+```{r, warning=FALSE, message=FALSE}
+ggplot(admission, aes(x = gre_score, y = chance_of_admit, color = as.factor(research))) +
+  geom_point() + 
+  scale_color_manual(values = c("#270181", "coral")) +
+  labs(x = "GRE Score", y = "Chance of Admission", color = "Research Experience", 
+       title = "Chance of Admit by GRE Score per Research Experience") +
+  theme_minimal() +
+  theme(plot.title = element_text(color = "black", size = 14, face = "bold"),
+        legend.position = "bottom") +
+  geom_smooth(method = "lm", se = FALSE)
+
+```
+
+Applicants with research experience (Research = 1) have a higher average
+GRE score (about 323) compared to those without research experience
+(Research = 0), who have an average GRE score of approximately 309.
+Similarly, the mean chance of admission is significantly higher for
+applicants with research experience (approx. 0.796) than for those
+without it (approx. 0.638). This indicates that research experience is
+positively associated with both higher GRE scores and a greater
+likelihood of admission.
+
+### Chance of Admit and CGPA
+
+```{r, warning=FALSE, message=FALSE}
+ggplot(admission, aes(x = cgpa, y = chance_of_admit, color = as.factor(university_rating))) +
+  geom_point() + 
+  scale_color_manual(values = c("#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd")) +
+  labs(x = "G.P.A Score", y = "Chance of Admission", color = "University Rating", 
+       title = "Chance of Admit by G.P.A per University Ranking") +
+  theme_minimal() +
+  theme(plot.title = element_text(color = "black", size = 14, face = "bold"),
+        legend.position = "bottom") +
+  geom_smooth(method = "lm", se = FALSE)
+```
+
+Applicants with a higher g.p.a have a higher acceptance probability as
+the university ranking goes from low(1) to high(5). The correlation
+value of 0.87 indicates a strong positive relationship between G.P.A
+score and the chance of admission. This suggests that higher a G.P.A
+score are generally associated with a higher likelihood of being
+admitted.
+
+### Chance of Admission Correlation Heatmap
+
+```{r, warning=FALSE, message=FALSE}
+library(ggplot2)
+library(reshape2)
+library(viridis)
+
+# Calculate the correlation matrix
+data <- cor(admission[sapply(admission, is.numeric)], use = "complete.obs")
+
+# Reshape data for ggplot
+data1 <- melt(data)
+
+# Create the heatmap
+ggplot(data1, aes(x = Var1, y = Var2, fill = value)) +
+  geom_tile() +
+  scale_fill_viridis(option = "C", direction = -1) +  # Using viridis color scale
+  labs(title = "Admission Correlation Heatmap", x = "", y = "") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1, size = 10),
+        axis.text.y = element_text(size = 10),
+        plot.title = element_text(color = "black", size = 14, face = "bold"),
+        legend.position = "right") +
+  geom_text(aes(label = round(value, digits = 2)), color = "white", size = 3)
+
+  
+```
+
+The heatmap shows that GRE scores, TOEFL scores, and CGPA are strongly
+and positively correlated with the chance of admission. Research
+experience also positively influences admission chances, albeit to a
+lesser extent than academic scores.
+
+## Analysis and Results
+
+
+
+```{r}
+# Scaling of Data
+#admission <- scale(admission)
+#admission <- as.data.frame(admission)
+```
+
+```{r}
+# Splitting the Data
+
+#make this example reproducible
+set.seed(1)
+
+#Use 70% of dataset as training set and remaining 30% as testing set
+sample <- sample(c(TRUE, FALSE), nrow(admission), replace=TRUE, prob=c(0.7,0.3))
+train  <- admission[sample, ]
+test   <- admission[!sample, ]
+
+#view dimensions of training set
+#dim(train)
+
+#view dimensions of test set
+#dim(test)
+
+X_train <- train
+
+X_test = subset(test,select = -c(chance_of_admit))
+keeps <- c("chance_of_admit")
+y_test = test[keeps]
+```
+
+
+### Fitting Full Model
+```{r}
+gy_logit <- betareg(chance_of_admit ~ gre_score + toefl_score + university_rating + sop + lor + cgpa + research, data = train)
+
+model_summary <- summary(gy_logit)
+# Extracting coefficients for the mean model
+coefficients_mean <- model_summary$coefficients$mean
+coeff_mean_df <- data.frame(round(coefficients_mean, 4))
+colnames(coeff_mean_df) <- c("Estimate", "Std. Error", "z value", "Pr(>|z|)")
+
+# Extract log-likelihood and pseudo R-squared
+log_likelihood <- round(model_summary$loglik, 2)
+pseudo_r_squared <- round(model_summary$pseudo.r.squared, 4)
+
+# Print the formatted results
+print("Coefficients (Mean Model):")
+print(coeff_mean_df)
+cat("\nLog-Likelihood:", log_likelihood, "\nPseudo R-squared:", pseudo_r_squared)
+
+
+coefficients_df <- data.frame(
+  Term = rownames(model_summary$coefficients$mean),
+  Estimate = model_summary$coefficients$mean[, "Estimate"],
+  Std_Error = model_summary$coefficients$mean[, "Std. Error"]
+)
+coefficients_df <- coefficients_df[coefficients_df$Term != "(Intercept)",]
+
+ggplot(coefficients_df, aes(x = Term, y = Estimate)) +
+  geom_point() +
+  geom_errorbar(aes(ymin = Estimate - Std_Error, ymax = Estimate + Std_Error), width = 0.2) +
+  theme_minimal() +
+  coord_flip() + 
+  xlab("Model Terms") +
+  ylab("Coefficient Estimate") +
+  ggtitle("Coefficient Estimates with Standard Errors")
+
+
+```
+
+## Choosing Best Fit Model
+
+::: {.panel-tabset}
+
+### Subset Selection {.smaller}
+
+```{r}
+library(leaps)
+models <- regsubsets(chance_of_admit~. -serial_no, data = admission, nvmax = 9,
+                     method = "seqrep")
+
+library(broom)
+
+model_summaries <- summary(models)
+
+# Number of models
+num_models <- nrow(model_summaries$which)
+
+# Initialize an empty data frame for the summary
+summary_table <- data.frame(Size = integer(), 
+                            Variables = character(), 
+                            R.Squared = numeric(), 
+                            Adj.R.Squared = numeric(), 
+                            BIC = numeric(), 
+                            stringsAsFactors = FALSE)
+
+# Fill the summary table
+for (i in 1:num_models) {
+  included_vars <- names(which(model_summaries$which[i, ]))
+  vars_str <- paste(included_vars, collapse = ", ")
+  summary_table <- rbind(summary_table, 
+                         data.frame(Size = i, 
+                                    Variables = vars_str, 
+                                    R.Squared = model_summaries$rsq[i], 
+                                    Adj.R.Squared = model_summaries$adjr2[i], 
+                                    BIC = model_summaries$bic[i]))
+}
+
+# Print the table
+print(summary_table)
+
+
+
+```
+
+
+### K-Fold Cross validation
+
+```{r}
+# Set seed for reproducibility
+set.seed(123)
+# Set up repeated k-fold cross-validation
+train.control <- trainControl(method = "cv", number = 10)
+# Train the model
+step.model <- train(chance_of_admit ~. -serial_no, data = admission,
+                    method = "leapSeq", 
+                    tuneGrid = data.frame(nvmax = 1:7),
+                    trControl = train.control
+                    )
+step.model$results
+```
+
+### Best Fit Model
+
+```{r}
+gy_logit <- betareg(chance_of_admit ~ gre_score + toefl_score + university_rating + lor + cgpa + research, data = train)
+
+gy_logit1 <- betareg(chance_of_admit ~ gre_score + toefl_score + university_rating + lor + cgpa , data = train)
+
+gy_logit2 <- betareg(chance_of_admit ~ gre_score + toefl_score + university_rating + lor + research, data = train)
+
+gy_logit3 <- betareg(chance_of_admit ~ gre_score + toefl_score + university_rating + cgpa + research, data = train)
+
+gy_logit4 <- betareg(chance_of_admit ~ gre_score + toefl_score + lor + cgpa + research, data = train)
+
+gy_logit5 <- betareg(chance_of_admit ~ gre_score + university_rating + lor + cgpa + research, data = train)
+
+gy_logit6 <- betareg(chance_of_admit ~ toefl_score + university_rating + lor + cgpa + research, data = train)
+
+gy_logit7 <- betareg(chance_of_admit ~ gre_score + toefl_score + university_rating + lor + cgpa + research, data = train)
+
+# Creating a data frame with AIC and pseudo R-squared values for each model
+model_comparison <- data.frame(
+  Model = c("gy_logit", "gy_logit1", "gy_logit2", "gy_logit3", "gy_logit4", "gy_logit5", "gy_logit6", "gy_logit7"),
+  AIC = c(AIC(gy_logit), AIC(gy_logit1), AIC(gy_logit2), AIC(gy_logit3), AIC(gy_logit4), AIC(gy_logit5), AIC(gy_logit6), AIC(gy_logit7)),
+  Pseudo_R_Squared = c(gy_logit$pseudo.r.squared, gy_logit1$pseudo.r.squared, gy_logit2$pseudo.r.squared, gy_logit3$pseudo.r.squared, gy_logit4$pseudo.r.squared, gy_logit5$pseudo.r.squared, gy_logit6$pseudo.r.squared, gy_logit7$pseudo.r.squared)
+)
+
+
+print(model_comparison)
+
+```
+:::
+
+
+
+## Conclusion
+
+
+## References

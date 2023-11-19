@@ -158,7 +158,7 @@ i.e.,$n_i = B_1x_{i1}+...+B_kx_{ik};$ usually $x_{i1}$ = 1 for all $i$
 so that the model has an intercept.The $g(.): (0,1) -> IR$ represent the
 link function.
 
-## Analysis and Results
+## Data Exploration
 
 This section aims to identify key variables for constructing a beta
 regression model to predict admission chances. Initially, we analyze the
@@ -176,57 +176,71 @@ Data**](https://www.kaggle.com/datasets/akshaydattatraykhare/data-for-admission-
 
 ### Attribute Information
 
-+----------+-----------+----------+----------------------------------+
-| Variable | Parameter | Range    | Description                      |
-+==========+===========+:=========+==================================+
-| GRE      | gre_score | 290 -    | Quantifies a candidate's         |
-| Scores   |           | 340      | performance on the Graduate      |
-|          |           |          | Record Examination, with a       |
-|          |           | (340     | maximum score of 340             |
-|          |           | scale)   |                                  |
-+----------+-----------+----------+----------------------------------+
-| TOEFL    | to        | 92 - 120 | Measures English language        |
-| Scores   | efl_score |          | proficiency, scored out of a     |
-|          |           | (120     | total of 120 points              |
-|          |           | scale)   |                                  |
-+----------+-----------+----------+----------------------------------+
-| Un       | universi  | 1 to 5   | Rates universities on a scale    |
-| iversity | ty_rating | with 5   | from 1 to 5, indicating their    |
-| Rating   |           | being    | overall quality and reputation.  |
-|          |           | the      |                                  |
-|          |           | highest  |                                  |
-|          |           | rating   |                                  |
-+----------+-----------+----------+----------------------------------+
-| S        | sop       | 1 to 5   | Evaluates the strength and       |
-| tatement |           | with 5   | quality of a candidate's SOP on  |
-| of       |           | being    | a scale of 1 to 5                |
-| Purpose  |           | the      |                                  |
-| (SOP)    |           | highest  |                                  |
-| Strength |           | rating   |                                  |
-+----------+-----------+----------+----------------------------------+
-| Letter   | lor       | 1 to 5   | Evaluates the strength and       |
-| of       |           | with 5   | quality of a candidate's SOP and |
-| Reccomm  |           | being    | LOR on a scale of 1 to 5         |
-| endation |           | the      |                                  |
-| (LOR)    |           | highest  |                                  |
-| Strength |           | rating   |                                  |
-+----------+-----------+----------+----------------------------------+
-| Under    | cgpa      | 6.8 -    | Reflects a student's academic    |
-| graduate |           | 9.92     | performance in their             |
-| GPA      |           |          | undergraduate studies, scored on |
-|          |           | (10.0    | a 10-point scale                 |
-|          |           | scale)   |                                  |
-+----------+-----------+----------+----------------------------------+
-| Research | research  | 0 or 1   | Indicates whether a candidate    |
-| Ex       |           |          | has research experience (1) or   |
-| perience |           |          | not (0).                         |
-+----------+-----------+----------+----------------------------------+
-| Chance   | chance    | 0.34 -   | Represents the likelihood of a   |
-| of Admit | _of_admit | 0.97     | student being admitted,          |
-|          |           |          | expressed as a decimal between 0 |
-|          |           | (0 to 1  | and 1                            |
-|          |           | scale)   |                                  |
-+----------+-----------+----------+----------------------------------+
++-------------+-------------+-------------+-------------------+
+| Variable    | Parameter   | Range       | Description       |
++=============+=============+:============+===================+
+| GRE Scores  | gre_score   | 290 - 340   | Quantifies a      |
+|             |             |             | candidate's       |
+|             |             | (340 scale) | performance on    |
+|             |             |             | the Graduate      |
+|             |             |             | Record            |
+|             |             |             | Examination, with |
+|             |             |             | a maximum score   |
+|             |             |             | of 340            |
++-------------+-------------+-------------+-------------------+
+| TOEFL       | to          | 92 - 120    | Measures English  |
+| Scores      | efl_score   |             | language          |
+|             |             | (120 scale) | proficiency,      |
+|             |             |             | scored out of a   |
+|             |             |             | total of 120      |
+|             |             |             | points            |
++-------------+-------------+-------------+-------------------+
+| Un iversity | universi    | 1 to 5 with | Rates             |
+| Rating      | ty_rating   | 5 being the | universities on a |
+|             |             | highest     | scale from 1 to   |
+|             |             | rating      | 5, indicating     |
+|             |             |             | their overall     |
+|             |             |             | quality and       |
+|             |             |             | reputation.       |
++-------------+-------------+-------------+-------------------+
+| S tatement  | sop         | 1 to 5 with | Evaluates the     |
+| of Purpose  |             | 5 being the | strength and      |
+| (SOP)       |             | highest     | quality of a      |
+| Strength    |             | rating      | candidate's SOP   |
+|             |             |             | on a scale of 1   |
+|             |             |             | to 5              |
++-------------+-------------+-------------+-------------------+
+| Letter of   | lor         | 1 to 5 with | Evaluates the     |
+| Reccomm     |             | 5 being the | strength and      |
+| endation    |             | highest     | quality of a      |
+| (LOR)       |             | rating      | candidate's SOP   |
+| Strength    |             |             | and LOR on a      |
+|             |             |             | scale of 1 to 5   |
++-------------+-------------+-------------+-------------------+
+| Under       | cgpa        | 6.8 - 9.92  | Reflects a        |
+| graduate    |             |             | student's         |
+| GPA         |             | (10.0       | academic          |
+|             |             | scale)      | performance in    |
+|             |             |             | their             |
+|             |             |             | undergraduate     |
+|             |             |             | studies, scored   |
+|             |             |             | on a 10-point     |
+|             |             |             | scale             |
++-------------+-------------+-------------+-------------------+
+| Research Ex | research    | 0 or 1      | Indicates whether |
+| perience    |             |             | a candidate has   |
+|             |             |             | research          |
+|             |             |             | experience (1) or |
+|             |             |             | not (0).          |
++-------------+-------------+-------------+-------------------+
+| Chance of   | chance\     | 0.34 - 0.97 | Represents the    |
+| Admit       | \_of_admit  |             | likelihood of a   |
+|             |             | (0 to 1     | student being     |
+|             |             | scale)      | admitted,         |
+|             |             |             | expressed as a    |
+|             |             |             | decimal between 0 |
+|             |             |             | and 1             |
++-------------+-------------+-------------+-------------------+
 
 ### Libraries
 
@@ -265,7 +279,82 @@ admission <- admission %>%
 head(admission,5)
 ```
 
-### Chance of Admit and TOEFL
+### Model Assumptions
+
++--------------+-------------------------------------+--------------+
+| Assumption   | **Description**                     | Assumption   |
+|              |                                     | Met          |
++==============+=====================================+==============+
+| Beta         | The dependent variable is           | Met          |
+| Distribution | continuous and bounded between 0    |              |
+| of Dependent | and 1.                              |              |
+| Variable     |                                     |              |
++--------------+-------------------------------------+--------------+
+| Independent  | Observations are independent of     | Assumed      |
+| Observations | each other.                         |              |
++--------------+-------------------------------------+--------------+
+| Homo         | The variance of error terms are     | Assumed      |
+| scedasticity | constant across levels of           |              |
+| of Error     | independent variables.              |              |
+| Terms        |                                     |              |
++--------------+-------------------------------------+--------------+
+| Linearity of | There are linear relationship       | Met          |
+| Predictors   | between logit of the expected value |              |
+|              | and predictors.                     |              |
++--------------+-------------------------------------+--------------+
+| No Perfect   | Predictors are not perfectly        | Met          |
+| Multi        | collinear.                          |              |
+| collinearity |                                     |              |
++--------------+-------------------------------------+--------------+
+| No Outliers  | The data does not have influential  | Met          |
+|              | outliers.                           |              |
++--------------+-------------------------------------+--------------+
+
+```{r}
+hist(admission$chance_of_admit, breaks=20, main="Histogram of Chance of Admit", xlab="Chance of Admit")
+
+```
+
+The dependent variable is continuous and bounded between 0 and 1.
+
+```{r}
+pairs(~ chance_of_admit + gre_score + toefl_score + university_rating + sop + lor + cgpa + research, data = admission)
+
+```
+
+There are linear relationship between logit of the expected value and
+predictors.
+
+```{r}
+library(car)
+vif(lm(chance_of_admit ~ gre_score + toefl_score + university_rating + sop + lor + cgpa + research, data = admission))
+
+```
+
+VIF scores are not greater than the chosen threshold of 10
+
+```{r}
+boxplot(admission$chance_of_admit, main = "Boxplot of Chance of Admit", ylab = "Chance of Admit")
+
+```
+
+```{r}
+par(mfrow = c(2, 4))  # Adjust layout to display multiple plots
+boxplot(admission$gre_score, main = "GRE Score")
+boxplot(admission$toefl_score, main = "TOEFL Score")
+boxplot(admission$university_rating, main = "University Rating")
+boxplot(admission$sop, main = "SOP")
+boxplot(admission$lor, main = "LOR")
+boxplot(admission$cgpa, main = "CGPA")
+boxplot(admission$research, main = "Research")
+
+```
+
+The data does not have influential outliers
+
+### Further EDA
+
+#### Chance of Admit and TOEFL
 
 Based on exploratory data analysis, TOEFL scores appear to be associated
 with a greater chance of admission, this chance of admission is further
@@ -337,7 +426,7 @@ significantly higher (approx. 0.796) than for those without (approx.
 This data suggests that research experience is positively associated
 with both higher TOEFL scores and a greater likelihood of admission.
 
-### Chance of Admit and GRE
+#### Chance of Admit and GRE
 
 These analyses suggest that higher GRE scores are strongly correlated
 with an increased chance of admission. The likelihood of admission also
@@ -408,7 +497,7 @@ without it (approx. 0.638). This indicates that research experience is
 positively associated with both higher GRE scores and a greater
 likelihood of admission.
 
-### Chance of Admit and CGPA
+#### Chance of Admit and CGPA
 
 ```{r, warning=FALSE, message=FALSE}
 ggplot(admission, aes(x = cgpa, y = chance_of_admit, color = as.factor(university_rating))) +
@@ -429,7 +518,7 @@ score and the chance of admission. This suggests that higher a G.P.A
 score are generally associated with a higher likelihood of being
 admitted.
 
-### Chance of Admission Correlation Heatmap
+#### Chance of Admission Correlation Heatmap
 
 ```{r, warning=FALSE, message=FALSE}
 library(ggplot2)
@@ -497,13 +586,13 @@ keeps <- c("chance_of_admit")
 y_test = test[keeps]
 ```
 
-## Fitting Model 1
+## Fitting Full Model
 
 Model 1 = chance_of_admit \~ gre_score + toefl_score +
-university_rating + sop + lor + cgpa + research + sop\*lor
+university_rating + sop + lor + cgpa + research
 
 ```{r}
-gy_logit <- betareg(chance_of_admit ~ gre_score + toefl_score + university_rating + sop + lor + cgpa + research + sop*lor, data = train)
+gy_logit <- betareg(chance_of_admit ~ gre_score + toefl_score + university_rating + sop + lor + cgpa + research, data = train)
 
 model_summary <- summary(gy_logit)
 # Extracting coefficients for the mean model
@@ -521,16 +610,14 @@ print(coeff_mean_df)
 cat("\nLog-Likelihood:", log_likelihood, "\nPseudo R-squared:", pseudo_r_squared)
 
 
-
-
-coefficients <- data.frame(
-  Term = c("gre_score", "toefl_score", "university_rating", "sop", "lor", "cgpa", "research", "sop:lor"),
-  Estimate = c(0.008720, 0.020909, 0.029896, -0.278052, -0.102987, 0.634843, 0.151620, 0.071630),
-  Std_Error = c(0.003397, 0.006384, 0.029887, 0.073270, 0.075866, 0.068545, 0.045662, 0.021380)
+coefficients_df <- data.frame(
+  Term = rownames(model_summary$coefficients$mean),
+  Estimate = model_summary$coefficients$mean[, "Estimate"],
+  Std_Error = model_summary$coefficients$mean[, "Std. Error"]
 )
+coefficients_df <- coefficients_df[coefficients_df$Term != "(Intercept)",]
 
-
-ggplot(coefficients, aes(x = Term, y = Estimate)) +
+ggplot(coefficients_df, aes(x = Term, y = Estimate)) +
   geom_point() +
   geom_errorbar(aes(ymin = Estimate - Std_Error, ymax = Estimate + Std_Error), width = 0.2) +
   theme_minimal() +
@@ -538,8 +625,6 @@ ggplot(coefficients, aes(x = Term, y = Estimate)) +
   xlab("Model Terms") +
   ylab("Coefficient Estimate") +
   ggtitle("Coefficient Estimates with Standard Errors")
-
-
 
 ```
 
