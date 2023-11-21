@@ -18,6 +18,10 @@ editor:
     wrap: 72
 ---
 
+[Website](https://willg90.github.io/STA6257_Project_BetaRegression)
+
+[Slides](https://willg90.github.io/STA6257_Project_BetaRegression/beta_slides.html)
+
 ## Introduction
 
 The literature review delves into the development and application of
