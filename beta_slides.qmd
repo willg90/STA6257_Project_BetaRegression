@@ -3,7 +3,9 @@ title: "Predicting Students' Chance of Admission Using Beta Regression"
 author: "Marcus Chery and Keiron Green"
 date: '`r Sys.Date()`'
 
-format: revealjs
+format: 
+  revealjs:
+    theme: simple
 course: STA 6257 - Advanced Statistical Modeling
 bibliography: references.bib # file contains bibtex for references
 #always_allow_html: true # this allows to get PDF with HTML features
@@ -21,25 +23,15 @@ editor:
 ::: panel-tabset
 ### What is Beta Regression?
 
-Beta regression is a type of statistical analysis used for modeling
-dependent variables that are bounded on both sides, typically between 0
-and 1. It is particularly useful for variables that represent
-proportions or percentages.
+The formal introduction of beta regression is attributed to Ferrari and
+Cribari-Neto in their 2004 paper, "Beta Regression for Modelling Rates
+and Proportions".
 
 -   **Definition**: A statistical technique for modeling data that
     follows a beta distribution.
 -   **Key Characteristics**:
     -   Deals with continuous variables bounded between 0 and 1.
     -   Suitable for rates or proportions.
-
-### Applications and Importance
-
--   **Uses**:
-    -   Ideal for modeling rates and proportions in finance, biology,
-        and social sciences.
--   **Importance**:
-    -   Provides more flexibility and accuracy for bounded data compared
-        to traditional regression.
 
 ### How Beta Regression Works
 
@@ -49,14 +41,35 @@ proportions or percentages.
     -   Incorporates a link function, similar to logistic regression.
     -   Estimation typically done through maximum likelihood methods.
 
+### Applications and Importance
+
+-   **Case Study: T**his study focuses on a crucial aspect of academic
+    admissions: understanding the factors influencing the chance of
+    admission into academic programs.
+
+    Our analysis revolves around key variables: GRE scores, TOEFL
+    scores, letters of recommendation (LOR), undergraduate CGPA, and
+    research experience
+
+### Objectives
+
+-   To identify and quantify the impact of various academic and
+    experiential factors on the chances of admission.
+-   To employ Beta Regression, an advanced statistical method suitable
+    for modeling percentages or proportions, like the chance of
+    admission.
+-   Our goal is not just to find which factors are significant, but also
+    to understand the extent of their influence.
+
 ### PDF of the Beta Distribution
 
 ![By Pabloparsil --- Own work, CC BY-SA 4.0,
-https://commons.wikimedia.org/w/index.php?curid=89335966](images/PDF_of_the_Beta_distribution.gif){width="531"}
+https://commons.wikimedia.org/w/index.php?curid=89335966](images/PDF_of_the_Beta_distribution.gif){width="613"}
 :::
 
 ## Methods
 
+::: panel-tabset
 ### Assumptions
 
 -   Link appropriateness ("deviance residuals vs. indices of
@@ -72,13 +85,22 @@ https://commons.wikimedia.org/w/index.php?curid=89335966](images/PDF_of_the_Beta
 ### Equations
 
 ```         
-Beta regression model function: g(μ_i )=x_i^T β=n_i where β=(β_1,...,β_k )⊤ is a k × 1 vector.  (x_(i1   ),....,x_ik)⊤ is the vector of k regressors (or independent variables or covariates) and n_i is a linear predictor.
-Link function g(μ)=log⁡(μ∕(1-μ)). 
+Beta regression model function: 
+g(μ_i )=x_i^T β=n_i where β=(β_1,...,β_k )⊤ is a k × 1 vector.  
+(x_(i1   ),....,x_ik)⊤ is the vector of k regressors (or independent variables or covariates) and n_i is a linear predictor.
+
+Link function g(μ)=log⁡(μ∕(1-μ)).
 ```
+
+### Link Function
+
+![](images/link.png){width="735"}
+:::
 
 ## Data {.scrollable}
 
-Description:
+::: panel-tabset
+### Description
 
 -   This dataset was built with the purpose of helping students in
     shortlisting universities with their profiles. The predicted output
@@ -89,150 +111,142 @@ Description:
     score, university rating, SOP (Statement of Purpose), LOR (Letter of
     Recommendation), CGPA, research and chance of admit.
 
-Variables - Attribute Information
+### Table
 
-The table contains a brief description of the dataset.
++---------------+---------------+-------------------------------+
+| Parameter     | Range         | Description                   |
++===============+:==============+===============================+
+| gre_score     | 290 - 340     | Quantifies a candidate's      |
+|               |               | performance on the Graduate   |
+|               | (340 scale)   | Record Examination, with a    |
+|               |               | maximum score of 340          |
++---------------+---------------+-------------------------------+
+| toefl_score   | 92 - 120      | Measures English language     |
+|               |               | proficiency, scored out of a  |
+|               | (120 scale)   | total of 120 points           |
++---------------+---------------+-------------------------------+
+| un iv         | 1 to 5 with 5 | Rates universities on a scale |
+| ersity_rating | being the     | from 1 to 5, indicating their |
+|               | highest       | overall quality and           |
+|               | rating        | reputation.                   |
++---------------+---------------+-------------------------------+
+| sop           | 1 to 5 with 5 | E valuates the strength and   |
+|               | being the     | quality of a candidate's SOP  |
+|               | highest       | on a scale of 1 to 5          |
+|               | rating        |                               |
++---------------+---------------+-------------------------------+
+| lor           | 1 to 5 with 5 | E valuates the strength and   |
+|               | being the     | quality of a candidate's SOP  |
+|               | highest       | and LOR on a scale of 1 to 5  |
+|               | rating        |                               |
++---------------+---------------+-------------------------------+
+| cgpa          | 6.8 - 9.92    | Reflects a student's academic |
+|               |               | performance in their          |
+|               | (10.0 scale)  | undergraduate studies, scored |
+|               |               | on a 10-point scale           |
++---------------+---------------+-------------------------------+
+| research      | 0 or 1        | Indicates whether a candidate |
+|               |               | has research experience (1)   |
+|               |               | or not (0).                   |
++---------------+---------------+-------------------------------+
+| chance\_      | 0.34 - 0.97   | Represents the likelihood of  |
+| of_admit      |               | a student being admitted,     |
+|               | (0 to 1       | expressed as a decimal        |
+|               | scale)        | between 0 and 1               |
++---------------+---------------+-------------------------------+
 
-### Attribute Information
+### EDA
+Descriptive Statistics:
 
-+------------+------------+------------+------------+
-| Variable   | Parameter  | Range      | D          |
-|            |            |            | escription |
-+============+============+:===========+============+
-| GRE Scores | gre_score  | 290 - 340  | Quantifies |
-|            |            |            | a          |
-|            |            | (340       | c          |
-|            |            | scale)     | andidate's |
-|            |            |            | p          |
-|            |            |            | erformance |
-|            |            |            | on the     |
-|            |            |            | Graduate   |
-|            |            |            | Record E   |
-|            |            |            | x          |
-|            |            |            | amination, |
-|            |            |            | with a     |
-|            |            |            | maximum    |
-|            |            |            | score of   |
-|            |            |            | 340        |
-+------------+------------+------------+------------+
-| TOEFL      | to         | 92 - 120   | Measures   |
-| Scores     | efl_score  |            | English    |
-|            |            | (120       | language p |
-|            |            | scale)     | r          |
-|            |            |            | oficiency, |
-|            |            |            | scored out |
-|            |            |            | of a total |
-|            |            |            | of 120     |
-|            |            |            | points     |
-+------------+------------+------------+------------+
-| Un         | universi   | 1 to 5     | Rates u    |
-| iversity   | ty_rating  | with 5     | n          |
-| Rating     |            | being the  | iversities |
-|            |            | highest    | on a scale |
-|            |            | rating     | from 1 to  |
-|            |            |            | 5,         |
-|            |            |            | indicating |
-|            |            |            | their      |
-|            |            |            | overall    |
-|            |            |            | quality    |
-|            |            |            | and        |
-|            |            |            | r          |
-|            |            |            | eputation. |
-+------------+------------+------------+------------+
-| S tatement | sop        | 1 to 5     | Evaluates  |
-| of Purpose |            | with 5     | the        |
-| (SOP)      |            | being the  | strength   |
-| Strength   |            | highest    | and        |
-|            |            | rating     | quality of |
-|            |            |            | a          |
-|            |            |            | c          |
-|            |            |            | andidate's |
-|            |            |            | SOP on a   |
-|            |            |            | scale of 1 |
-|            |            |            | to 5       |
-+------------+------------+------------+------------+
-| Letter of  | lor        | 1 to 5     | Evaluates  |
-| Reccomm    |            | with 5     | the        |
-| endation   |            | being the  | strength   |
-| (LOR)      |            | highest    | and        |
-| Strength   |            | rating     | quality of |
-|            |            |            | a          |
-|            |            |            | c          |
-|            |            |            | andidate's |
-|            |            |            | SOP and    |
-|            |            |            | LOR on a   |
-|            |            |            | scale of 1 |
-|            |            |            | to 5       |
-+------------+------------+------------+------------+
-| Under      | cgpa       | 6.8 - 9.92 | Reflects a |
-| graduate   |            |            | student's  |
-| GPA        |            | (10.0      | academic   |
-|            |            | scale)     | p          |
-|            |            |            | erformance |
-|            |            |            | in their   |
-|            |            |            | un         |
-|            |            |            | d          |
-|            |            |            | ergraduate |
-|            |            |            | studies,   |
-|            |            |            | scored on  |
-|            |            |            | a 10-point |
-|            |            |            | scale      |
-+------------+------------+------------+------------+
-| Research   | research   | 0 or 1     | Indicates  |
-| Ex         |            |            | whether a  |
-| perience   |            |            | candidate  |
-|            |            |            | has        |
-|            |            |            | research   |
-|            |            |            | experience |
-|            |            |            | (1) or not |
-|            |            |            | (0).       |
-+------------+------------+------------+------------+
-| Chance of  | chance\    | 0.34 -     | Represents |
-| Admit      | \_of_admit | 0.97       | the        |
-|            |            |            | likelihood |
-|            |            | (0 to 1    | of a       |
-|            |            | scale)     | student    |
-|            |            |            | being      |
-|            |            |            | admitted,  |
-|            |            |            | expressed  |
-|            |            |            | as a       |
-|            |            |            | decimal    |
-|            |            |            | between 0  |
-|            |            |            | and 1      |
-+------------+------------+------------+------------+
+- Average GRE Score: 316.81
+- Average TOEFL Score: 107.41
+- Average CGPA: 8.60
+
+Outliers:
+
+- Outliers observed in upper ranges of CGPA and Chance of Admit.
+
+Multicollinearity:
+
+- Moderate multicollinearity.
+- Highest VIFs: CGPA (5.21), GRE Score (4.62), TOEFL Score (4.29).
+
+Correlation Analysis:
+
+- Strong correlations: GRE & TOEFL (0.84), GRE & CGPA (0.83), TOEFL & CGPA (0.83).
+- High correlation of Chance of Admit with CGPA (0.87), GRE Score (0.80), TOEFL Score (0.79).
+
+:::
 
 ## Analysis and Results
 
-## Choosing Best Fit Model
+-   First we split dataset for training and testing
+
+## Choosing Best Fit Model {.scrollable}
 
 ::: panel-tabset
 ### Subset Selection
 
-![](images/subset selection.png)
+![](images/subset%20selection.png)
 
 ### K-Fold Cross validation
 
-![](images/k fold.png)
+![](images/k%20fold.png)
 
 ### Best Fit Model
 
-![](images/best model.png)
+-   Our model is specified as: chance_of_admit \~ gre_score +
+    toefl_score + lor + cgpa + research."
+
+-   "We used Maximum Likelihood Estimation (MLE) for fitting the beta
+    regression model."
+
+-   "The model fitting involved iteratively refining our estimates to
+    maximize the likelihood of observing our data given the model."
+
+![](images/best%20model.png)
+
+### gy_logit4
+
+![](images/gylogit4.png) ![](images/gylogit4_coeff.png){width="467"}
+
+### Model Diagnostics
+
+-   Residuals are scattered around the zero line, which indicates that
+    there are no obvious patterns such as curvature or increasing or
+    decreasing spread.
+-   Most residuals fall within the range of -2 to 2, which suggests that
+    the model does not exhibit any significant outliers or influential
+    observations.
+-   The randomness in the distribution of residuals implies that our
+    model meets the assumption of homoscedasticity and that the error
+    variance is constant. ![](images/residuals)
 :::
 
 ## Conclusion
 
--   The application of beta regression models has provided valuable
-    insights into predicting student admission probabilities. 
+-   The beta regression model identified significant predictors of the
+    chance of admission: GRE Score, TOEFL Score, Letters of
+    Recommendation, CGPA, and Research Experience.
 
--   The analysis highlights the significance of various factors, such as
-    GRE scores, TOEFL scores, CGPA, university ratings, letters of
-    recommendation, and research experience.
+-   CGPA emerged as the strongest predictor, suggesting that academic
+    performance in undergraduate studies is highly indicative of
+    admission chances.
 
--   The models that combined these predictors with the lowest AIC values
-    and the highest pseudo R-squared scores were deemed most effective.
+-   Research Experience also has a notable positive influence,
+    underscoring the value of scholarly work in the admission process.
 
--   This study not only contributes to the academic understanding of
-    factors influencing university admissions but also offers practical
-    implications for educational institutions and policy-making.
+-   The study reinforces the importance of a well-rounded application,
+    beyond test scores, highlighting the integral role of holistic
+    review.
+
+-   The model assumes a linear relationship between predictors and the
+    logit of the admission chances, which may not capture all nuances.
+
+-   The analysis is based on a specific dataset, which may limit the
+    generalizability of the findings to other contexts or institutions.
+
+-   Future research could explore the inclusion of interaction terms,
+    non-linear relationships.
 
 ## References

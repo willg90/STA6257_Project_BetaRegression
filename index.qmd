@@ -180,71 +180,77 @@ Data**](https://www.kaggle.com/datasets/akshaydattatraykhare/data-for-admission-
 
 ### Attribute Information
 
-+-------------+-------------+-------------+-------------------+
-| Variable    | Parameter   | Range       | Description       |
-+=============+=============+:============+===================+
-| GRE Scores  | gre_score   | 290 - 340   | Quantifies a      |
-|             |             |             | candidate's       |
-|             |             | (340 scale) | performance on    |
-|             |             |             | the Graduate      |
-|             |             |             | Record            |
-|             |             |             | Examination, with |
-|             |             |             | a maximum score   |
-|             |             |             | of 340            |
-+-------------+-------------+-------------+-------------------+
-| TOEFL       | to          | 92 - 120    | Measures English  |
-| Scores      | efl_score   |             | language          |
-|             |             | (120 scale) | proficiency,      |
-|             |             |             | scored out of a   |
-|             |             |             | total of 120      |
-|             |             |             | points            |
-+-------------+-------------+-------------+-------------------+
-| Un iversity | universi    | 1 to 5 with | Rates             |
-| Rating      | ty_rating   | 5 being the | universities on a |
-|             |             | highest     | scale from 1 to   |
-|             |             | rating      | 5, indicating     |
-|             |             |             | their overall     |
-|             |             |             | quality and       |
-|             |             |             | reputation.       |
-+-------------+-------------+-------------+-------------------+
-| S tatement  | sop         | 1 to 5 with | Evaluates the     |
-| of Purpose  |             | 5 being the | strength and      |
-| (SOP)       |             | highest     | quality of a      |
-| Strength    |             | rating      | candidate's SOP   |
-|             |             |             | on a scale of 1   |
-|             |             |             | to 5              |
-+-------------+-------------+-------------+-------------------+
-| Letter of   | lor         | 1 to 5 with | Evaluates the     |
-| Reccomm     |             | 5 being the | strength and      |
-| endation    |             | highest     | quality of a      |
-| (LOR)       |             | rating      | candidate's SOP   |
-| Strength    |             |             | and LOR on a      |
-|             |             |             | scale of 1 to 5   |
-+-------------+-------------+-------------+-------------------+
-| Under       | cgpa        | 6.8 - 9.92  | Reflects a        |
-| graduate    |             |             | student's         |
-| GPA         |             | (10.0       | academic          |
-|             |             | scale)      | performance in    |
-|             |             |             | their             |
-|             |             |             | undergraduate     |
-|             |             |             | studies, scored   |
-|             |             |             | on a 10-point     |
-|             |             |             | scale             |
-+-------------+-------------+-------------+-------------------+
-| Research Ex | research    | 0 or 1      | Indicates whether |
-| perience    |             |             | a candidate has   |
-|             |             |             | research          |
-|             |             |             | experience (1) or |
-|             |             |             | not (0).          |
-+-------------+-------------+-------------+-------------------+
-| Chance of   | chance\     | 0.34 - 0.97 | Represents the    |
-| Admit       | \_of_admit  |             | likelihood of a   |
-|             |             | (0 to 1     | student being     |
-|             |             | scale)      | admitted,         |
-|             |             |             | expressed as a    |
-|             |             |             | decimal between 0 |
-|             |             |             | and 1             |
-+-------------+-------------+-------------+-------------------+
++----------------+----------------+----------------+----------------+
+| Variable       | Parameter      | Range          | Description    |
++================+================+:===============+================+
+| GRE Scores     | gre_score      | 290 - 340      | Quantifies a   |
+|                |                |                | candidate's    |
+|                |                | (340 scale)    | performance on |
+|                |                |                | the Graduate   |
+|                |                |                | Record         |
+|                |                |                | Examination,   |
+|                |                |                | with a maximum |
+|                |                |                | score of 340   |
++----------------+----------------+----------------+----------------+
+| TOEFL Scores   | to efl_score   | 92 - 120       | Measures       |
+|                |                |                | English        |
+|                |                | (120 scale)    | language       |
+|                |                |                | proficiency,   |
+|                |                |                | scored out of  |
+|                |                |                | a total of 120 |
+|                |                |                | points         |
++----------------+----------------+----------------+----------------+
+| Un iversity    | universi       | 1 to 5 with 5  | Rates          |
+| Rating         | ty_rating      | being the      | universities   |
+|                |                | highest rating | on a scale     |
+|                |                |                | from 1 to 5,   |
+|                |                |                | indicating     |
+|                |                |                | their overall  |
+|                |                |                | quality and    |
+|                |                |                | reputation.    |
++----------------+----------------+----------------+----------------+
+| S tatement of  | sop            | 1 to 5 with 5  | Evaluates the  |
+| Purpose (SOP)  |                | being the      | strength and   |
+| Strength       |                | highest rating | quality of a   |
+|                |                |                | candidate's    |
+|                |                |                | SOP on a scale |
+|                |                |                | of 1 to 5      |
++----------------+----------------+----------------+----------------+
+| Letter of      | lor            | 1 to 5 with 5  | Evaluates the  |
+| Reccomm        |                | being the      | strength and   |
+| endation (LOR) |                | highest rating | quality of a   |
+| Strength       |                |                | candidate's    |
+|                |                |                | SOP and LOR on |
+|                |                |                | a scale of 1   |
+|                |                |                | to 5           |
++----------------+----------------+----------------+----------------+
+| Under graduate | cgpa           | 6.8 - 9.92     | Reflects a     |
+| GPA            |                |                | student's      |
+|                |                | (10.0 scale)   | academic       |
+|                |                |                | performance in |
+|                |                |                | their          |
+|                |                |                | undergraduate  |
+|                |                |                | studies,       |
+|                |                |                | scored on a    |
+|                |                |                | 10-point scale |
++----------------+----------------+----------------+----------------+
+| Research Ex    | research       | 0 or 1         | Indicates      |
+| perience       |                |                | whether a      |
+|                |                |                | candidate has  |
+|                |                |                | research       |
+|                |                |                | experience (1) |
+|                |                |                | or not (0).    |
++----------------+----------------+----------------+----------------+
+| Chance of      | chance\        | 0.34 - 0.97    | Represents the |
+| Admit          | \_of_admit     |                | likelihood of  |
+|                |                | (0 to 1 scale) | a student      |
+|                |                |                | being          |
+|                |                |                | admitted,      |
+|                |                |                | expressed as a |
+|                |                |                | decimal        |
+|                |                |                | between 0 and  |
+|                |                |                | 1              |
++----------------+----------------+----------------+----------------+
 
 ### Libraries
 
@@ -285,34 +291,14 @@ head(admission,5)
 
 ### Model Assumptions
 
-+--------------+-------------------------------------+--------------+
-| Assumption   | **Description**                     | Assumption   |
-|              |                                     | Met          |
-+==============+=====================================+==============+
-| Beta         | The dependent variable is           | Met          |
-| Distribution | continuous and bounded between 0    |              |
-| of Dependent | and 1.                              |              |
-| Variable     |                                     |              |
-+--------------+-------------------------------------+--------------+
-| Independent  | Observations are independent of     | Assumed      |
-| Observations | each other.                         |              |
-+--------------+-------------------------------------+--------------+
-| Homo         | The variance of error terms are     | Assumed      |
-| scedasticity | constant across levels of           |              |
-| of Error     | independent variables.              |              |
-| Terms        |                                     |              |
-+--------------+-------------------------------------+--------------+
-| Linearity of | There are linear relationship       | Met          |
-| Predictors   | between logit of the expected value |              |
-|              | and predictors.                     |              |
-+--------------+-------------------------------------+--------------+
-| No Perfect   | Predictors are not perfectly        | Met          |
-| Multi        | collinear.                          |              |
-| collinearity |                                     |              |
-+--------------+-------------------------------------+--------------+
-| No Outliers  | The data does not have influential  | Met          |
-|              | outliers.                           |              |
-+--------------+-------------------------------------+--------------+
+| Assumption                              | **Description**                                                                   | Assumption Met |
+|-----------------------------------------|-----------------------------------------------------------------------------------|----------------|
+| Beta Distribution of Dependent Variable | The dependent variable is continuous and bounded between 0 and 1.                 | Met            |
+| Independent Observations                | Observations are independent of each other.                                       | Assumed        |
+| Homo scedasticity of Error Terms        | The variance of error terms are constant across levels of independent variables.  | Assumed        |
+| Linearity of Predictors                 | There are linear relationship between logit of the expected value and predictors. | Met            |
+| No Perfect Multi collinearity           | Predictors are not perfectly collinear.                                           | Met            |
+| No Outliers                             | The data does not have influential outliers.                                      | Met            |
 
 ```{r}
 hist(admission$chance_of_admit, breaks=20, main="Histogram of Chance of Admit", xlab="Chance of Admit")
