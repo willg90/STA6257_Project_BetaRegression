@@ -216,7 +216,7 @@ Correlation Analysis:
 -   The model fitting involved iteratively refining our estimates to
     maximize the likelihood of observing our data given the model.
 
-![](images/best%20model.png)
+![](images/gylogit.png)
 
 ### gy_logit4
 
