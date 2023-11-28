@@ -84,17 +84,15 @@ https://commons.wikimedia.org/w/index.php?curid=89335966](images/PDF_of_the_Beta
 
 ### Equations
 
-```         
-Beta regression model function: 
-g(μ_i )=x_i^T β=n_i where β=(β_1,...,β_k )⊤ is a k × 1 vector.  
-(x_(i1   ),....,x_ik)⊤ is the vector of k regressors (or independent variables or covariates) and n_i is a linear predictor.
+Beta regression model function:
 
-Link function g(μ)=log⁡(μ∕(1-μ)).
+![](images/beta_reg_eq.png){width="603"}
 
-The beta density formula is below. $$ 
-f(x;p,q) =\frac{ \Gamma(p + q)}{\Gamma(p)*\Gamma(q)}x^{p-1}(1-x)^{q-1}
-$$ , $$ 0 < y < 1 $$ where $p,q$ \> 0 and $\Gamma (.)$ is the Gamma function
-```
+Link function: g(μ)=log⁡(μ∕(1-μ))
+
+The beta density formula:
+
+![](images/beta_density_eq.png)
 
 ### Plot Assumptions
 
@@ -117,48 +115,62 @@ $$ , $$ 0 < y < 1 $$ where $p,q$ \> 0 and $\Gamma (.)$ is the Gamma function
 
 ### Table
 
-+---------------+---------------+-----------------------------+
-| Parameter     | Range         | Description                 |
-+===============+:==============+=============================+
-| gre_score     | 290 - 340     | Quantifies a candidate's    |
-|               |               | performance on the Graduate |
-|               | (340 scale)   | Record Examination, with a  |
-|               |               | maximum score of 340        |
-+---------------+---------------+-----------------------------+
-| toefl_score   | 92 - 120      | Measures English language   |
-|               |               | proficiency, scored out of  |
-|               | (120 scale)   | a total of 120 points       |
-+---------------+---------------+-----------------------------+
-| un iv         | 1 to 5 with 5 | Rates universities on a     |
-| ersity_rating | being the     | scale from 1 to 5,          |
-|               | highest       | indicating their overall    |
-|               | rating        | quality and reputation.     |
-+---------------+---------------+-----------------------------+
-| sop           | 1 to 5 with 5 | E valuates the strength and |
-|               | being the     | quality of a candidate's    |
-|               | highest       | SOP on a scale of 1 to 5    |
-|               | rating        |                             |
-+---------------+---------------+-----------------------------+
-| lor           | 1 to 5 with 5 | E valuates the strength and |
-|               | being the     | quality of a candidate's    |
-|               | highest       | SOP and LOR on a scale of 1 |
-|               | rating        | to 5                        |
-+---------------+---------------+-----------------------------+
-| cgpa          | 6.8 - 9.92    | Reflects a student's        |
-|               |               | academic performance in     |
-|               | (10.0 scale)  | their undergraduate         |
-|               |               | studies, scored on a        |
-|               |               | 10-point scale              |
-+---------------+---------------+-----------------------------+
-| research      | 0 or 1        | Indicates whether a         |
-|               |               | candidate has research      |
-|               |               | experience (1) or not (0).  |
-+---------------+---------------+-----------------------------+
-| chance\_      | 0.34 - 0.97   | Represents the likelihood   |
-| of_admit      |               | of a student being          |
-|               | (0 to 1       | admitted, expressed as a    |
-|               | scale)        | decimal between 0 and 1     |
-+---------------+---------------+-----------------------------+
++---------------+---------------+---------------------+
+| Parameter     | Range         | Description         |
++===============+:==============+=====================+
+| gre_score     | 290 - 340     | Quantifies a        |
+|               |               | candidate's         |
+|               | (340 scale)   | performance on the  |
+|               |               | Graduate Record     |
+|               |               | Examination, with a |
+|               |               | maximum score of    |
+|               |               | 340                 |
++---------------+---------------+---------------------+
+| toefl_score   | 92 - 120      | Measures English    |
+|               |               | language            |
+|               | (120 scale)   | proficiency, scored |
+|               |               | out of a total of   |
+|               |               | 120 points          |
++---------------+---------------+---------------------+
+| un iv         | 1 to 5 with 5 | Rates universities  |
+| ersity_rating | being the     | on a scale from 1   |
+|               | highest       | to 5, indicating    |
+|               | rating        | their overall       |
+|               |               | quality and         |
+|               |               | reputation.         |
++---------------+---------------+---------------------+
+| sop           | 1 to 5 with 5 | E valuates the      |
+|               | being the     | strength and        |
+|               | highest       | quality of a        |
+|               | rating        | candidate's SOP on  |
+|               |               | a scale of 1 to 5   |
++---------------+---------------+---------------------+
+| lor           | 1 to 5 with 5 | E valuates the      |
+|               | being the     | strength and        |
+|               | highest       | quality of a        |
+|               | rating        | candidate's SOP and |
+|               |               | LOR on a scale of 1 |
+|               |               | to 5                |
++---------------+---------------+---------------------+
+| cgpa          | 6.8 - 9.92    | Reflects a          |
+|               |               | student's academic  |
+|               | (10.0 scale)  | performance in      |
+|               |               | their undergraduate |
+|               |               | studies, scored on  |
+|               |               | a 10-point scale    |
++---------------+---------------+---------------------+
+| research      | 0 or 1        | Indicates whether a |
+|               |               | candidate has       |
+|               |               | research experience |
+|               |               | (1) or not (0).     |
++---------------+---------------+---------------------+
+| chance\_      | 0.34 - 0.97   | Represents the      |
+| of_admit      |               | likelihood of a     |
+|               | (0 to 1       | student being       |
+|               | scale)        | admitted, expressed |
+|               |               | as a decimal        |
+|               |               | between 0 and 1     |
++---------------+---------------+---------------------+
 
 ### EDA
 
@@ -186,8 +198,6 @@ Correlation Analysis:
 :::
 
 ## Analysis and Results {.scrollable}
-
--   First we split dataset for training and testing
 
 ::: panel-tabset
 ### Subset Selection
