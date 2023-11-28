@@ -1,7 +1,6 @@
 ---
 title: "Predicting Students' Chance of Admission Using Beta Regression"
 author: "Marcus Chery and Keiron Green"
-date: '`r Sys.Date()`'
 
 format: 
   revealjs:
