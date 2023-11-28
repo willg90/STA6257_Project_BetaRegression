@@ -90,6 +90,10 @@ g(μ_i )=x_i^T β=n_i where β=(β_1,...,β_k )⊤ is a k × 1 vector.
 (x_(i1   ),....,x_ik)⊤ is the vector of k regressors (or independent variables or covariates) and n_i is a linear predictor.
 
 Link function g(μ)=log⁡(μ∕(1-μ)).
+
+The beta density formula is below. $$ 
+f(x;p,q) =\frac{ \Gamma(p + q)}{\Gamma(p)*\Gamma(q)}x^{p-1}(1-x)^{q-1}
+$$ , $$ 0 < y < 1 $$ where $p,q$ \> 0 and $\Gamma (.)$ is the Gamma function
 ```
 
 ### Link Function
@@ -113,69 +117,82 @@ Link function g(μ)=log⁡(μ∕(1-μ)).
 
 ### Table
 
-+---------------+---------------+-------------------------------+
-| Parameter     | Range         | Description                   |
-+===============+:==============+===============================+
-| gre_score     | 290 - 340     | Quantifies a candidate's      |
-|               |               | performance on the Graduate   |
-|               | (340 scale)   | Record Examination, with a    |
-|               |               | maximum score of 340          |
-+---------------+---------------+-------------------------------+
-| toefl_score   | 92 - 120      | Measures English language     |
-|               |               | proficiency, scored out of a  |
-|               | (120 scale)   | total of 120 points           |
-+---------------+---------------+-------------------------------+
-| un iv         | 1 to 5 with 5 | Rates universities on a scale |
-| ersity_rating | being the     | from 1 to 5, indicating their |
-|               | highest       | overall quality and           |
-|               | rating        | reputation.                   |
-+---------------+---------------+-------------------------------+
-| sop           | 1 to 5 with 5 | E valuates the strength and   |
-|               | being the     | quality of a candidate's SOP  |
-|               | highest       | on a scale of 1 to 5          |
-|               | rating        |                               |
-+---------------+---------------+-------------------------------+
-| lor           | 1 to 5 with 5 | E valuates the strength and   |
-|               | being the     | quality of a candidate's SOP  |
-|               | highest       | and LOR on a scale of 1 to 5  |
-|               | rating        |                               |
-+---------------+---------------+-------------------------------+
-| cgpa          | 6.8 - 9.92    | Reflects a student's academic |
-|               |               | performance in their          |
-|               | (10.0 scale)  | undergraduate studies, scored |
-|               |               | on a 10-point scale           |
-+---------------+---------------+-------------------------------+
-| research      | 0 or 1        | Indicates whether a candidate |
-|               |               | has research experience (1)   |
-|               |               | or not (0).                   |
-+---------------+---------------+-------------------------------+
-| chance\_      | 0.34 - 0.97   | Represents the likelihood of  |
-| of_admit      |               | a student being admitted,     |
-|               | (0 to 1       | expressed as a decimal        |
-|               | scale)        | between 0 and 1               |
-+---------------+---------------+-------------------------------+
++---------------------+----------------------+----------------------+
+| Parameter           | Range                | Description          |
++=====================+:=====================+======================+
+| gre_score           | 290 - 340            | Quantifies a         |
+|                     |                      | candidate's          |
+|                     | (340 scale)          | performance on the   |
+|                     |                      | Graduate Record      |
+|                     |                      | Examination, with a  |
+|                     |                      | maximum score of 340 |
++---------------------+----------------------+----------------------+
+| toefl_score         | 92 - 120             | Measures English     |
+|                     |                      | language             |
+|                     | (120 scale)          | proficiency, scored  |
+|                     |                      | out of a total of    |
+|                     |                      | 120 points           |
++---------------------+----------------------+----------------------+
+| un iv ersity_rating | 1 to 5 with 5 being  | Rates universities   |
+|                     | the highest rating   | on a scale from 1 to |
+|                     |                      | 5, indicating their  |
+|                     |                      | overall quality and  |
+|                     |                      | reputation.          |
++---------------------+----------------------+----------------------+
+| sop                 | 1 to 5 with 5 being  | E valuates the       |
+|                     | the highest rating   | strength and quality |
+|                     |                      | of a candidate's SOP |
+|                     |                      | on a scale of 1 to 5 |
++---------------------+----------------------+----------------------+
+| lor                 | 1 to 5 with 5 being  | E valuates the       |
+|                     | the highest rating   | strength and quality |
+|                     |                      | of a candidate's SOP |
+|                     |                      | and LOR on a scale   |
+|                     |                      | of 1 to 5            |
++---------------------+----------------------+----------------------+
+| cgpa                | 6.8 - 9.92           | Reflects a student's |
+|                     |                      | academic performance |
+|                     | (10.0 scale)         | in their             |
+|                     |                      | undergraduate        |
+|                     |                      | studies, scored on a |
+|                     |                      | 10-point scale       |
++---------------------+----------------------+----------------------+
+| research            | 0 or 1               | Indicates whether a  |
+|                     |                      | candidate has        |
+|                     |                      | research experience  |
+|                     |                      | (1) or not (0).      |
++---------------------+----------------------+----------------------+
+| chance\_ of_admit   | 0.34 - 0.97          | Represents the       |
+|                     |                      | likelihood of a      |
+|                     | (0 to 1 scale)       | student being        |
+|                     |                      | admitted, expressed  |
+|                     |                      | as a decimal between |
+|                     |                      | 0 and 1              |
++---------------------+----------------------+----------------------+
 
 ### EDA
+
 Descriptive Statistics:
 
-- Average GRE Score: 316.81
-- Average TOEFL Score: 107.41
-- Average CGPA: 8.60
+-   Average GRE Score: 316.81
+-   Average TOEFL Score: 107.41
+-   Average CGPA: 8.60
 
 Outliers:
 
-- Outliers observed in upper ranges of CGPA and Chance of Admit.
+-   Outliers observed in upper ranges of CGPA and Chance of Admit.
 
 Multicollinearity:
 
-- Moderate multicollinearity.
-- Highest VIFs: CGPA (5.21), GRE Score (4.62), TOEFL Score (4.29).
+-   Moderate multicollinearity.
+-   Highest VIFs: CGPA (5.21), GRE Score (4.62), TOEFL Score (4.29).
 
 Correlation Analysis:
 
-- Strong correlations: GRE & TOEFL (0.84), GRE & CGPA (0.83), TOEFL & CGPA (0.83).
-- High correlation of Chance of Admit with CGPA (0.87), GRE Score (0.80), TOEFL Score (0.79).
-
+-   Strong correlations: GRE & TOEFL (0.84), GRE & CGPA (0.83), TOEFL &
+    CGPA (0.83).
+-   High correlation of Chance of Admit with CGPA (0.87), GRE Score
+    (0.80), TOEFL Score (0.79).
 :::
 
 ## Analysis and Results
