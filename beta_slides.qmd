@@ -262,3 +262,8 @@ Correlation Analysis:
     non-linear relationships.
 
 ## References
+
+Ferrari, Silvia, and Francisco Cribari-Neto. 2004. \"Beta Regression for
+Modelling Rates and Proportions.\" *Journal of Applied Statistics* 31
+(7): 799--815.
+[https://EconPapers.repec.org/RePEc:taf:japsta:v:31:y:2004:i:7:p:799-815](https://econpapers.repec.org/RePEc:taf:japsta:v:31:y:2004:i:7:p:799-815).
