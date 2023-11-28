@@ -18,7 +18,7 @@ editor:
     wrap: 72
 ---
 
-## Introduction
+## Introduction {.scrollable}
 
 ::: panel-tabset
 ### What is Beta Regression?
