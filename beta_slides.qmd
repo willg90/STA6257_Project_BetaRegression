@@ -92,7 +92,7 @@ Link function: g(μ)=log⁡(μ∕(1-μ))
 
 The beta density formula:
 
-![](images/beta_density_eq.png)
+![](images/pdensity.png)
 
 ### Plot Assumptions
 
