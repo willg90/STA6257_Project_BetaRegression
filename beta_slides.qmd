@@ -235,7 +235,7 @@ Correlation Analysis:
     variance is constant. ![](images/residuals)
 :::
 
-## Conclusion
+## Conclusion {.scrollable}
 
 -   The beta regression model identified significant predictors of the
     chance of admission: GRE Score, TOEFL Score, Letters of
