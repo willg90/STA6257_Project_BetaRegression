@@ -180,99 +180,137 @@ Data**](https://www.kaggle.com/datasets/akshaydattatraykhare/data-for-admission-
 
 ### Attribute Information
 
-+-------------+-------------+-------------+-------------+
-| Variable    | Parameter   | Range       | Description |
-+=============+=============+:============+=============+
-| GRE Scores  | gre_score   | 290 - 340   | Quantifies  |
-|             |             |             | a           |
-|             |             | (340 scale) | candidate's |
-|             |             |             | performance |
-|             |             |             | on the      |
-|             |             |             | Graduate    |
-|             |             |             | Record      |
-|             |             |             | E           |
-|             |             |             | xamination, |
-|             |             |             | with a      |
-|             |             |             | maximum     |
-|             |             |             | score of    |
-|             |             |             | 340         |
-+-------------+-------------+-------------+-------------+
-| TOEFL       | to          | 92 - 120    | Measures    |
-| Scores      | efl_score   |             | English     |
-|             |             | (120 scale) | language    |
-|             |             |             | p           |
-|             |             |             | roficiency, |
-|             |             |             | scored out  |
-|             |             |             | of a total  |
-|             |             |             | of 120      |
-|             |             |             | points      |
-+-------------+-------------+-------------+-------------+
-| Un iversity | universi    | 1 to 5 with | Rates       |
-| Rating      | ty_rating   | 5 being the | u           |
-|             |             | highest     | niversities |
-|             |             | rating      | on a scale  |
-|             |             |             | from 1 to   |
-|             |             |             | 5,          |
-|             |             |             | indicating  |
-|             |             |             | their       |
-|             |             |             | overall     |
-|             |             |             | quality and |
-|             |             |             | reputation. |
-+-------------+-------------+-------------+-------------+
-| S tatement  | sop         | 1 to 5 with | Evaluates   |
-| of Purpose  |             | 5 being the | the         |
-| (SOP)       |             | highest     | strength    |
-| Strength    |             | rating      | and quality |
-|             |             |             | of a        |
-|             |             |             | candidate's |
-|             |             |             | SOP on a    |
-|             |             |             | scale of 1  |
-|             |             |             | to 5        |
-+-------------+-------------+-------------+-------------+
-| Letter of   | lor         | 1 to 5 with | Evaluates   |
-| Reccomm     |             | 5 being the | the         |
-| endation    |             | highest     | strength    |
-| (LOR)       |             | rating      | and quality |
-| Strength    |             |             | of a        |
-|             |             |             | candidate's |
-|             |             |             | SOP and LOR |
-|             |             |             | on a scale  |
-|             |             |             | of 1 to 5   |
-+-------------+-------------+-------------+-------------+
-| Under       | cgpa        | 6.8 - 9.92  | Reflects a  |
-| graduate    |             |             | student's   |
-| GPA         |             | (10.0       | academic    |
-|             |             | scale)      | performance |
-|             |             |             | in their    |
-|             |             |             | un          |
-|             |             |             | dergraduate |
-|             |             |             | studies,    |
-|             |             |             | scored on a |
-|             |             |             | 10-point    |
-|             |             |             | scale       |
-+-------------+-------------+-------------+-------------+
-| Research Ex | research    | 0 or 1      | Indicates   |
-| perience    |             |             | whether a   |
-|             |             |             | candidate   |
-|             |             |             | has         |
-|             |             |             | research    |
-|             |             |             | experience  |
-|             |             |             | (1) or not  |
-|             |             |             | (0).        |
-+-------------+-------------+-------------+-------------+
-| Chance of   | chance\     | 0.34 - 0.97 | Represents  |
-| Admit       | \_of_admit  |             | the         |
-|             |             | (0 to 1     | likelihood  |
-|             |             | scale)      | of a        |
-|             |             |             | student     |
-|             |             |             | being       |
-|             |             |             | admitted,   |
-|             |             |             | expressed   |
-|             |             |             | as a        |
-|             |             |             | decimal     |
-|             |             |             | between 0   |
-|             |             |             | and 1       |
-+-------------+-------------+-------------+-------------+
++----------+----------+----------+----------+
+| Variable | P        | Range    | D e      |
+|          | arameter |          | s        |
+|          |          |          | cription |
++==========+==========+:=========+==========+
+| GRE      | g        | 290 -    | Q        |
+| Scores   | re_score | 340      | u        |
+|          |          |          | antifies |
+|          |          | (340     | a c a    |
+|          |          | scale)   | n        |
+|          |          |          | didate's |
+|          |          |          | p e      |
+|          |          |          | r        |
+|          |          |          | formance |
+|          |          |          | on the   |
+|          |          |          | Graduate |
+|          |          |          | Record E |
+|          |          |          | x a      |
+|          |          |          | m        |
+|          |          |          | ination, |
+|          |          |          | with a   |
+|          |          |          | maximum  |
+|          |          |          | score of |
+|          |          |          | 340      |
++----------+----------+----------+----------+
+| TOEFL    | to       | 92 - 120 | Measures |
+| Scores   | e        |          | English  |
+|          | fl_score | (120     | language |
+|          |          | scale)   | p r o    |
+|          |          |          | f        |
+|          |          |          | iciency, |
+|          |          |          | scored   |
+|          |          |          | out of a |
+|          |          |          | total of |
+|          |          |          | 120      |
+|          |          |          | points   |
++----------+----------+----------+----------+
+| Un       | universi | 1 to 5   | Rates u  |
+| iversity | t        | with 5   | n i      |
+| Rating   | y_rating | being    | v        |
+|          |          | the      | ersities |
+|          |          | highest  | on a     |
+|          |          | rating   | scale    |
+|          |          |          | from 1   |
+|          |          |          | to 5, i  |
+|          |          |          | n        |
+|          |          |          | dicating |
+|          |          |          | their    |
+|          |          |          | overall  |
+|          |          |          | quality  |
+|          |          |          | and r e  |
+|          |          |          | p        |
+|          |          |          | utation. |
++----------+----------+----------+----------+
+| S        | sop      | 1 to 5   | E        |
+| tatement |          | with 5   | valuates |
+| of       |          | being    | the      |
+| Purpose  |          | the      | strength |
+| (SOP)    |          | highest  | and      |
+| Strength |          | rating   | quality  |
+|          |          |          | of a c a |
+|          |          |          | n        |
+|          |          |          | didate's |
+|          |          |          | SOP on a |
+|          |          |          | scale of |
+|          |          |          | 1 to 5   |
++----------+----------+----------+----------+
+| Letter   | lor      | 1 to 5   | E        |
+| of       |          | with 5   | valuates |
+| Reccomm  |          | being    | the      |
+| endation |          | the      | strength |
+| (LOR)    |          | highest  | and      |
+| Strength |          | rating   | quality  |
+|          |          |          | of a c a |
+|          |          |          | n        |
+|          |          |          | didate's |
+|          |          |          | SOP and  |
+|          |          |          | LOR on a |
+|          |          |          | scale of |
+|          |          |          | 1 to 5   |
++----------+----------+----------+----------+
+| Under    | cgpa     | 6.8 -    | Reflects |
+| graduate |          | 9.92     | a        |
+| GPA      |          |          | s        |
+|          |          | (10.0    | tudent's |
+|          |          | scale)   | academic |
+|          |          |          | p e      |
+|          |          |          | r        |
+|          |          |          | formance |
+|          |          |          | in their |
+|          |          |          | un d e   |
+|          |          |          | r        |
+|          |          |          | graduate |
+|          |          |          | studies, |
+|          |          |          | scored   |
+|          |          |          | on a     |
+|          |          |          | 10-point |
+|          |          |          | scale    |
++----------+----------+----------+----------+
+| Research | research | 0 or 1   | I        |
+| Ex       |          |          | ndicates |
+| perience |          |          | whether  |
+|          |          |          | a        |
+|          |          |          | c        |
+|          |          |          | andidate |
+|          |          |          | has      |
+|          |          |          | research |
+|          |          |          | e        |
+|          |          |          | x        |
+|          |          |          | perience |
+|          |          |          | (1) or   |
+|          |          |          | not (0). |
++----------+----------+----------+----------+
+| Chance   | chance\  | 0.34 -   | R        |
+| of Admit | \        | 0.97     | e        |
+|          | \_       |          | presents |
+|          | of_admit | (0 to 1  | the l    |
+|          |          | scale)   | i        |
+|          |          |          | kelihood |
+|          |          |          | of a     |
+|          |          |          | student  |
+|          |          |          | being    |
+|          |          |          | a        |
+|          |          |          | dmitted, |
+|          |          |          | e        |
+|          |          |          | xpressed |
+|          |          |          | as a     |
+|          |          |          | decimal  |
+|          |          |          | between  |
+|          |          |          | 0 and 1  |
++----------+----------+----------+----------+
 
 ### Libraries
 
@@ -313,34 +351,39 @@ head(admission,5)
 
 ### Model Assumptions
 
-+--------------+-------------------------------+--------------+
-| Assumption   | **Description**               | Assumption   |
-|              |                               | Met          |
-+==============+===============================+==============+
-| Beta         | The dependent variable is     | Met          |
-| Distribution | continuous and bounded        |              |
-| of Dependent | between 0 and 1.              |              |
-| Variable     |                               |              |
-+--------------+-------------------------------+--------------+
-| Independent  | Observations are independent  | Assumed      |
-| Observations | of each other.                |              |
-+--------------+-------------------------------+--------------+
-| Homo         | The variance of error terms   | Assumed      |
-| scedasticity | are constant across levels of |              |
-| of Error     | independent variables.        |              |
-| Terms        |                               |              |
-+--------------+-------------------------------+--------------+
-| Linearity of | There are linear relationship | Met          |
-| Predictors   | between logit of the expected |              |
-|              | value and predictors.         |              |
-+--------------+-------------------------------+--------------+
-| No Perfect   | Predictors are not perfectly  | Met          |
-| Multi        | collinear.                    |              |
-| collinearity |                               |              |
-+--------------+-------------------------------+--------------+
-| No Outliers  | The data does not have        | Met          |
-|              | influential outliers.         |              |
-+--------------+-------------------------------+--------------+
++--------------+-----------------------+--------------+
+| Assumption   | **Description**       | Assumption   |
+|              |                       | Met          |
++==============+=======================+==============+
+| Beta         | The dependent         | Met          |
+| Distribution | variable is           |              |
+| of Dependent | continuous and        |              |
+| Variable     | bounded between 0 and |              |
+|              | 1.                    |              |
++--------------+-----------------------+--------------+
+| Independent  | Observations are      | Assumed      |
+| Observations | independent of each   |              |
+|              | other.                |              |
++--------------+-----------------------+--------------+
+| Homo         | The variance of error | Assumed      |
+| scedasticity | terms are constant    |              |
+| of Error     | across levels of      |              |
+| Terms        | independent           |              |
+|              | variables.            |              |
++--------------+-----------------------+--------------+
+| Linearity of | There are linear      | Met          |
+| Predictors   | relationship between  |              |
+|              | logit of the expected |              |
+|              | value and predictors. |              |
++--------------+-----------------------+--------------+
+| No Perfect   | Predictors are not    | Met          |
+| Multi        | perfectly collinear.  |              |
+| collinearity |                       |              |
++--------------+-----------------------+--------------+
+| No Outliers  | The data does not     | Met          |
+|              | have influential      |              |
+|              | outliers.             |              |
++--------------+-----------------------+--------------+
 
 ```{r}
 hist(admission$chance_of_admit, breaks=20, main="Histogram of Chance of Admit", xlab="Chance of Admit")
@@ -618,7 +661,7 @@ keeps <- c("chance_of_admit")
 y_test = test[keeps]
 ```
 
-## Fitting Full Model
+## Fitting Model 1
 
 Model 1 = chance_of_admit \~ gre_score + toefl_score +
 university_rating + sop + lor + cgpa + research
@@ -636,7 +679,7 @@ colnames(coeff_mean_df) <- c("Estimate", "Std. Error", "z value", "Pr(>|z|)")
 log_likelihood <- round(model_summary$loglik, 2)
 pseudo_r_squared <- round(model_summary$pseudo.r.squared, 4)
 
-# Print the formatted results
+
 print("Coefficients (Mean Model):")
 print(coeff_mean_df)
 cat("\nLog-Likelihood:", log_likelihood, "\nPseudo R-squared:", pseudo_r_squared)
@@ -649,14 +692,6 @@ coefficients_df <- data.frame(
 )
 coefficients_df <- coefficients_df[coefficients_df$Term != "(Intercept)",]
 
-ggplot(coefficients_df, aes(x = Term, y = Estimate)) +
-  geom_point() +
-  geom_errorbar(aes(ymin = Estimate - Std_Error, ymax = Estimate + Std_Error), width = 0.2) +
-  theme_minimal() +
-  coord_flip() + 
-  xlab("Model Terms") +
-  ylab("Coefficient Estimate") +
-  ggtitle("Coefficient Estimates with Standard Errors")
 
 ```
 
@@ -688,8 +723,6 @@ models <- regsubsets(chance_of_admit~. -serial_no, data = admission, nvmax = 9,
 library(broom)
 
 model_summaries <- summary(models)
-
-# Number of models
 num_models <- nrow(model_summaries$which)
 
 # Initialize an empty data frame for the summary
@@ -714,9 +747,6 @@ for (i in 1:num_models) {
 
 # Print the table
 print(summary_table)
-
-
-
 ```
 
 In this analysis 10-fold cross-validation is employed to provide
@@ -790,6 +820,123 @@ model_comparison <- data.frame(
 print(model_comparison)
 
 ```
+
+### Diagnostic Measures
+
+Upon completion of analysis of the optimal model, it is desired to
+perform diagnostic analyses to inspect the goodness-of-fit of the chosen
+model. This is done by assessing a measure that determines the
+proportion of variance in the dependent variable that can be explained
+by the independent variable and plotting graphs depicting the residuals
+of the chosen model. The measure that best explains this relationship is
+the $R^2$ value. The $R^2$ is a statistical measure that indicates the
+percentage of the variance in the dependent variables that is explained
+by the independent variables collectively.The $R^2$ formula is explained
+below. $$
+R^2 = 1 - \dfrac{\sum(y_{i} -\hat{y}i)^2}{\sum(y{i} -\bar{y})^2}
+$$ where $y_{i}$ represents the observed value, $\hat{y}_i$ is predicted
+values and $\bar{y}$ is the mean of the predicted values.
+
+The values of $R^2$ are between the interval of (0,1) and the higher the
+$R^2$ value, the better the independent variables explain the proportion
+of variance in the dependent variable.Our analysis indicate that
+gy_logit4 and gy_logit7 have the highest $R^2$ with a respective value
+of (0.825 and 0.826). Both of these models are deemed the best models
+but due to our desire for simplification gy_logit4 is chosen given that
+it contains 4 variables vs gy_logit7 which contains 7 variables.
+
+```{r}
+
+model_summary <- summary(gy_logit4)
+
+# Extracting coefficients for the mean model
+coefficients_mean <- model_summary$coefficients$mean
+coeff_mean_df <- data.frame(round(coefficients_mean, 4))
+colnames(coeff_mean_df) <- c("Estimate", "Std. Error", "z value", "Pr(>|z|)")
+
+# Exponentiating the coefficients for odds ratios
+odds_ratios <- exp(coefficients_mean[, "Estimate"])
+coeff_mean_df$Odds_Ratio <- round(odds_ratios, 4)
+
+
+log_likelihood <- round(model_summary$loglik, 2)
+pseudo_r_squared <- round(model_summary$pseudo.r.squared, 4)
+
+
+print("Coefficients (Mean Model):")
+print(coeff_mean_df)
+cat("\nLog-Likelihood:", log_likelihood, "\nPseudo R-squared:", pseudo_r_squared)
+
+
+coefficients_df <- data.frame(
+  Term = rownames(model_summary$coefficients$mean),
+  Estimate = model_summary$coefficients$mean[, "Estimate"],
+  Std_Error = model_summary$coefficients$mean[, "Std. Error"],
+  Odds_Ratio = odds_ratios
+)
+
+
+coefficients_df <- coefficients_df[coefficients_df$Term != "(Intercept)",]
+
+ggplot(coefficients_df, aes(x = Term, y = Estimate)) +
+  geom_point() +
+  geom_errorbar(aes(ymin = Estimate - Std_Error, ymax = Estimate + Std_Error), width = 0.2) +
+  theme_minimal() +
+  coord_flip() + 
+  xlab("Model Terms") +
+  ylab("Coefficient Estimate") +
+  ggtitle("Coefficient Estimates with Standard Errors")
+```
+
+To further analyze the chosen model, we will perform visual diagnostics
+of the residuals. Let's start by defining what are residuals. The
+residuals are the difference between observed values and predicted
+values.The plot below contains our predicted values,chance of admit,
+which is represented by each individual data point. The prediction
+observations made by the model is on the x-axis and the accuracy of the
+prediction is on the y-axis. The distance from the dotted line,0,
+represents how bad the prediction was for that value. Examining the
+plot, we can observe that the residual bounce around the x-axis in
+somewhat a random manner - they do form figures. A particular residual
+does not significantly stand out from the others and the residuals band
+around the 0 mean error line.These are all indicators of a good model.
+
+```{r}
+plot(gy_logit,which = 1, main = "Standardized Residuals  - Model gy_logit 4", sub.caption = "")
+```
+
+Residual plots are important because it allows us to evaluate the
+prediction errors to understand whether the chosen model will provide
+you with an acceptable level of accuracy.
+
+```{r}
+
+baseline <- with(train, data.frame(
+  gre_score = mean(gre_score),
+  toefl_score = mean(toefl_score),
+  lor = mean(lor),
+  cgpa = mean(cgpa),
+  research = mean(research)
+))
+
+# Vary CGPA while keeping other predictors constant
+cgpa_range <- seq(min(train$cgpa), max(train$cgpa), length.out = 100)
+predictions <- sapply(cgpa_range, function(cgpa) {
+  new_data <- baseline
+  new_data$cgpa <- cgpa
+  predict(gy_logit4, newdata = new_data, type = "response")
+})
+
+
+plot(cgpa_range, predictions, type = 'l', col = 'blue', lwd = 2,
+     xlab = 'CGPA', ylab = 'Predicted Chance of Admission',
+     main = 'Effect of CGPA on Predicted Chance of Admission')
+
+```
+
+As the CGPA increases, so does the predicted chance of being admitted.
+Applicants with higher CGPA scores have a better chance of admission
+according to our predictive model.
 
 ### Conclusion
 
