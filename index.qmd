@@ -789,9 +789,7 @@ R-squared value suggests a better model fit.
 
 The outcomes reveal that 'gy_logit4' and 'gy_logit7' yield the lowest
 AIC values, indicating they are potentially the most efficient models
-among those tested. Both these models, along with 'gy_logit', also
-exhibit the highest pseudo R-squared values, suggesting strong model
-fits.
+among those tested.
 
 ```{r}
 
@@ -820,6 +818,9 @@ model_comparison <- data.frame(
 print(model_comparison)
 
 ```
+
+So based on the revealed model outcomes, we chose gy_logit4 due to it
+being the simplest model with the lowest AIC.
 
 ### Diagnostic Measures
 
